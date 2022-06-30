@@ -1,1 +1,1 @@
-# ESGI-react-node-api
+# ESGI-social-network

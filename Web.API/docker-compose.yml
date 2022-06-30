@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  node-api:
+    image: node:18.2.0
+    container_name: node-api
+    working_dir: /var/www/
+    command: /bin/bash -c "yarn && yarn dev"
+    env_file: ${envFile}
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/var/www/
+
+  mongo:
+    image: mongo:5.0.9
+    container_name: mongo
+    env_file: ${envFile}
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+  postgres:
+    image: postgres:alpine3.16
+    container_name: postgres
+    env_file: ${envFile}
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  mongo-data: {}
+  db-data: {}
+    

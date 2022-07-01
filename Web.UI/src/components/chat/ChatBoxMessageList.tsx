@@ -1,7 +1,10 @@
 import ChatBoxMessageItem from "./ChatBoxMessageItem";
 
-const ChatBoxMessageList = (props) => {
-  const { messages } = props;
+interface ChatBoxMessageListProps {
+  messages: Array<any>;
+}
+
+const ChatBoxMessageList = ({ messages }: ChatBoxMessageListProps) => {
   return (
     <ul className="space-y-2">
       {messages.map((message, index) => {
@@ -11,7 +14,8 @@ const ChatBoxMessageList = (props) => {
             key={message.id}
             message={message}
           />
-        )}
+        )
+      }
       )}
     </ul>
   );

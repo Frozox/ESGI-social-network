@@ -18,7 +18,7 @@ const MyRoutes = () => {
         <Routes>
             <Route path="/login" element={<OnlyWhen condition={true} otherwise="/Home"><LoginPage /></OnlyWhen>} />
             <Route path="/register" element={<OnlyWhen condition={true} otherwise="/login"><RegisterPage /></OnlyWhen>} />
-            <Route path="/chat" element={<ChatPage />}></Route>} />
+            <Route path="/chat" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
         </Routes>
     )
 }

@@ -7,15 +7,12 @@ import {
   MicrophoneIcon,
 } from "@heroicons/react/outline";
 
-const ChatBoxWriteBar = ({svg, type}: {svg: JSX.Element, type?: string }) => {
-  const allowedTypes = ["reset", "button", "submit"];
-  if (!allowedTypes.includes(type)) {
-    type = "button";
-  }
+const ChatBoxWriteBar = ({ svg, type }: { svg: JSX.Element, type?: string }) => {
+  console.log(type);
   return (
-      <button type={type}>
-        {svg}
-      </button>
+    <button type={type ? 'button' : 'submit'}>
+      {svg}
+    </button>
   )
 }
 
@@ -57,13 +54,13 @@ const ChatBox = () => {
         </div>
 
         <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
-          <ChatBoxWriteBar svg={<EmojiHappyIcon className="h-5 w-5 text-gray-500"/>} />
-          <ChatBoxWriteBar svg={<LinkIcon className="h-5 w-5 text-gray-500"/> } />
+          <ChatBoxWriteBar svg={<EmojiHappyIcon className="h-5 w-5 text-gray-500" />} />
+          <ChatBoxWriteBar svg={<LinkIcon className="h-5 w-5 text-gray-500" />} />
           <input type="text" placeholder="Message"
-                 className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-                 name="message" required/>
+            className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+            name="message" required />
           <ChatBoxWriteBar svg={<MicrophoneIcon className="h-5 w-5 text-gray-500" />} />
-          <ChatBoxWriteBar svg={<AnnotationIcon className="h-5 w-5 text-gray-500" />} type="submit"/>
+          <ChatBoxWriteBar svg={<AnnotationIcon className="h-5 w-5 text-gray-500" />} type="submit" />
         </div>
       </div>
     </div>

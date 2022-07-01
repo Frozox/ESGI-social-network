@@ -2,7 +2,7 @@ import ChatListItem from "./ChatListItem";
 
 const ChatList = () => {
 
-  const chats = new Array(10).fill({
+  const chats = new Array(20).fill({
     lastMessage: "Bonjour",
 
     created_at: "2020-01-01",
@@ -15,9 +15,9 @@ const ChatList = () => {
   });
 
   return (
-    <ul className="overflow-auto h-[32rem]">
+    <ul className="overflow-scroll h-[45rem]">
       <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-      <li>
+      <li className="p-2">
         {chats.map((chat, index) => {
           chat.id = index;
           return (
@@ -28,7 +28,8 @@ const ChatList = () => {
               created_at={chat.created_at}
               userDest={chat.userDest}
             />
-          )}
+          )
+        }
         )}
       </li>
     </ul>

@@ -1,8 +1,10 @@
 import React from "react"
 import loaderReducer, { loaderIS } from "./reducers/loading";
+import {usersIS, usersReducer} from "./reducers/users";
 
 const initialState = {
     loader: loaderIS,
+    users: usersIS
 }
 
 const StoreContext = React.createContext({
@@ -21,6 +23,7 @@ const combinedReducer = (reducerDict: { [key: string]: any }) => {
 
 const reducer = combinedReducer({
     loader: loaderReducer,
+    users: usersReducer
 })
 
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {

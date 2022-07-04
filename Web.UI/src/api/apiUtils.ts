@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:3000/';
 
 const getBearer = () => {
     const token = localStorage.getItem('token');

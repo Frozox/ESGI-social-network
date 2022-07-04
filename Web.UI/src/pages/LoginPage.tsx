@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/users.axios';
 
 interface ILoginForm {
     email: string;
@@ -8,9 +9,16 @@ interface ILoginForm {
 
 const LoginPage = () => {
     const { register, handleSubmit } = useForm<ILoginForm>();
+    const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<ILoginForm> = async (data: any) => {
         console.log(data);
+        loginUser(data).then(() => {
+            console.log(data);
+            navigate('/chat');
+        }).catch(() => {
+            console.log('error');
+        });
     };
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -7,13 +7,13 @@ webUiDocker = ${webUi}/docker-compose.yml
 
 # Project force build & install & start
 build:
-	make overwrite-env
+# make overwrite-env
 	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" up -d --build
 	docker-compose -p ${projectName} -f ${webUiDocker} up -d --build
 
 # Project install & start
 setup:
-	make overwrite-env
+# make overwrite-env
 	make start
 
 # Copy all env files into project

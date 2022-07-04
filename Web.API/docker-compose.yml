@@ -29,6 +29,14 @@ services:
       - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
+  
+  adminer:
+    container_name: adminer_node
+    image: adminer
+    ports:
+      - '8000:8080'
+    depends_on:
+      - postgres
 
 volumes:
   mongo-data: {}

@@ -1,6 +1,7 @@
 import React, { Fragment } from "react"
 import { Link, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { createUser } from '../api/users.axios'
 
 export interface IRegisterForm {
     firstName: string;
@@ -41,7 +42,13 @@ const RegisterPage = () => {
     const { handleSubmit, register } = useForm<IRegisterForm>();
 
     const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
-        console.log(data);
+        //console.log(data);
+        createUser(data).then(() => {
+            console.log(data);
+            navigate('/login');
+        }).catch(() => {
+            setError('User already exists');
+        });
     }
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,8 +57,8 @@ const RegisterPage = () => {
     }
 
     const inputsArea = [
-        { label: 'Prénom', formControlName: 'firstname' },
-        { label: 'Nom', formControlName: 'lastname' },
+        { label: 'Prénom', formControlName: 'firstName' },
+        { label: 'Nom', formControlName: 'lastName' },
         { label: 'Email', formControlName: 'email' },
         { label: 'Mot de passe', formControlName: 'password', type: 'password' },
     ]

@@ -13,7 +13,7 @@ build:
 
 # Project install & start
 setup:
-    make overwrite-env
+	make overwrite-env
 	make start
 
 # Copy all env files into project

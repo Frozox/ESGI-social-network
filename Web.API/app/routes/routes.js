@@ -3,6 +3,7 @@ const router = new express.Router;
 
 const HttpCode = require('../controllers/HttpCode');
 const User = require('../controllers/User');
+const Chat = require('../controllers/Chat');
 
 router.get('/', (_, res) => res.send("hey API works !"));
 
@@ -20,5 +21,8 @@ router.post('/users', User.createUser);
 router.put('/users/:id', User.editUser);
 router.delete('/users/:id', User.deleteUser);
 router.post("/login", User.loginUser);
+
+// Chat Routes
+router.get('/chatMessages', Chat.getChatMessages);
 
 module.exports = router;

@@ -2,14 +2,14 @@ const Sequelize = require("sequelize");
 
 const connection = new Sequelize(process.env.POSTGRES_CON_STRING, {
   useNewUrlParser: true,
-  dialect: 'postgres',
+  /*dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
       ssl: {
-          require: true,
+          require: false,
           rejectUnauthorized: false
       }
-  }
+  }*/
 });
 
 connection

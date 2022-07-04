@@ -1,5 +1,6 @@
 const { User } = require("../models/postgres");
 const { ValidationError } = require("sequelize");
+const { createToken } = require("../lib/jwt");
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -29,6 +30,8 @@ module.exports = {
             const user = await User.create(req.body);
             res.status(201).json(user);
         } catch (error) {
+            console.log(error);
+            //console.log(res);
             if (error instanceof ValidationError) {
             res.status(422).json({
                 quantity: "must be greather than 0",
@@ -79,4 +82,25 @@ module.exports = {
             console.error(error);
         }
     },
+    loginUser: async (req, res) => {
+        try {
+          const user = await User.findOne({ where: { email: req.body.email } });
+          if (!user) {
+            return res.status(401).json({
+              email: "Email not found",
+            });
+          }
+          if (user.password !== req.body.password) {
+            return res.status(401).json({
+              password: "Password is incorrect",
+            });
+          }
+          res.json({
+            token: createToken(user),
+          });
+        } catch (error) {
+          res.sendStatus(500);
+          console.error(error);
+        }
+      },
 }

@@ -17,25 +17,21 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        length: {
-          min: 8,
-          max: 255,
-        },
       },
     },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        length: {
-          min: 1,
-        },
-      },
     },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   },
   {
     sequelize: connection,
-    modelName: "user",
+    modelName: 'user',
+    tableName: 'users',
   }
 );
 

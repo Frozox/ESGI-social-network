@@ -8,3 +8,5 @@ User.hasMany(Friend, { foreignKey: "user_src", as: "userList" });
 
 exports.User = User;
 exports.Friend = Friend;
+exports.User = require("./User");
+exports.Chat = require("./Chat");

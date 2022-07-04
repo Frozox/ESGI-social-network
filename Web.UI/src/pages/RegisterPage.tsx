@@ -43,14 +43,8 @@ const RegisterPage = () => {
 
     const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
         //console.log(data);
-        const dataTest = {
-            email: data.email,
-            password: data.password,
-            firstName: "Raph",
-            lastName: "Bess",
-        }
-        createUser(dataTest).then(() => {
-            console.log(dataTest);
+        createUser(data).then(() => {
+            console.log(data);
             navigate('/login');
         }).catch(() => {
             setError('User already exists');
@@ -63,8 +57,8 @@ const RegisterPage = () => {
     }
 
     const inputsArea = [
-        { label: 'Prénom', formControlName: 'firstname' },
-        { label: 'Nom', formControlName: 'lastname' },
+        { label: 'Prénom', formControlName: 'firstName' },
+        { label: 'Nom', formControlName: 'lastName' },
         { label: 'Email', formControlName: 'email' },
         { label: 'Mot de passe', formControlName: 'password', type: 'password' },
     ]

@@ -13,8 +13,12 @@ const LoginPage = () => {
 
     const onSubmit: SubmitHandler<ILoginForm> = async (data: any) => {
         console.log(data);
-        loginUser(data);
-        navigate('/chat');
+        loginUser(data).then(() => {
+            console.log(data);
+            navigate('/chat');
+        }).catch(() => {
+            console.log('error');
+        });
     };
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -69,12 +69,4 @@ Chat.init(
   }
 );
 
-Chat.sync()
-    .then(() => console.log("Chat model synced"))
-    .catch((err) => {
-        console.log(err);
-        connection.close();
-        process.exit(1);
-    })
-;
 module.exports = Chat;

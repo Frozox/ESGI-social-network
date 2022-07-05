@@ -3,6 +3,8 @@ const Logger = require('../../services/Logger');
 
 const connection = new Sequelize(process.env.POSTGRES_CON_STRING, {
   useNewUrlParser: true,
+  protocol: "postgres",
+  dialect: "postgres",
   /*dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
@@ -20,6 +22,7 @@ connection
   })
   .catch((err) => {
     Logger.err(err);
+    process.exit(1);
   });
 
 module.exports = connection;

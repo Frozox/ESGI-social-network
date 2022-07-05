@@ -6,14 +6,25 @@ import {
   LinkIcon,
   MicrophoneIcon,
 } from "@heroicons/react/outline";
+import axios from "axios";
 
 const ChatBoxWriteBar = ({ svg, type }: { svg: JSX.Element, type?: string }) => {
-  console.log(type);
   return (
     <button type={type ? 'button' : 'submit'}>
       {svg}
     </button>
   )
+}
+
+const getMessages = () => {
+  return axios.get("http://localhost:3000/getMessages")
+      .then(res => {
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    ;
 }
 
 const ChatBox = () => {

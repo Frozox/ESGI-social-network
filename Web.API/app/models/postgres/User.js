@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const connection = require("./db");
 const bcryptjs = require("bcryptjs");
+const Chat = require("./Chat");
 
 class User extends Model {}
 
@@ -9,7 +10,6 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         isEmail: true,
       },
@@ -30,6 +30,7 @@ User.init(
     }
   },
   {
+    indexes: [{ fields: ['email'], unique: true}],
     sequelize: connection,
     modelName: 'user',
     tableName: 'users',

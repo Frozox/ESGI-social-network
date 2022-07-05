@@ -1,4 +1,5 @@
-const { Chat } = require('../models/postgres');
+const { Chat, User} = require('../models/postgres');
+
 module.exports = {
   /**
    * @description - This method is used to find all messages between two users
@@ -10,7 +11,11 @@ module.exports = {
     console.log(req)
     try {
       const result = await Chat.findAll({
-        where: {...req.body.params}
+        where: {...req.body.params},
+        include: [
+          { model: User, as: 'sender' },
+          { model: User, as: 'receiver' }
+        ]
       });
       res.json(result);
     } catch (error) {
@@ -61,8 +66,8 @@ module.exports = {
    */
   editChatMessage: async (req, res) => {
     try {
-      const result = await Chat.update(req.body, {
-        where: {id: req.params.id}
+      const result = await Chat.updateOne(req.body, {
+        where: {id: req.params.id},
       });
       res.json(result);
     } catch (error) {

@@ -20,5 +20,6 @@ router.post('/users', User.createUser);
 router.put('/users/:id', User.editUser);
 router.delete('/users/:id', User.deleteUser);
 router.post("/login", User.loginUser);
+router.post("/users/friends", User.addFriend);
 
 module.exports = router;

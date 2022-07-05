@@ -23,3 +23,13 @@ export const loginUser = async (payload: any) => {
     const response = await instance.post(`/login`, payload);
     return response.data;
 }
+
+export const getAllUsers = async () => {
+    const response = await instance.get(`/users`);
+    return response.data;
+}
+
+export const addFriendUser = async (payload: any) => {
+    const response = await instance.post(`/users/friends`, payload);
+    return response.data;
+}

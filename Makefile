@@ -5,6 +5,10 @@ webApiDocker = ${webApi}/docker-compose.yml
 webUi = ./Web.UI
 webUiDocker = ${webUi}/docker-compose.yml
 
+containerApi = node-api
+containerUi = node-front
+containerMongo = mongo
+
 # Project force build & install & start
 build:
 	make overwrite-env
@@ -40,10 +44,13 @@ down:
 	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" down
 	docker-compose -p ${projectName} -f ${webUiDocker} down
 
+migrate:
+	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" run --rm ${containerApi} npm run migrate --quiet
+
 # Exec bash
 node-api:
-	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" exec node-api bash
+	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" exec ${containerApi} bash
 mongo:
-	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" exec mongo bash
+	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" exec ${containerMongo} bash
 node-front:
-	docker-compose -p ${projectName} -f ${webUiDocker} --env-file="${webApi}/${envFile}" exec node-front bash
+	docker-compose -p ${projectName} -f ${webUiDocker} --env-file="${webApi}/${envFile}" exec ${containerUi} bash

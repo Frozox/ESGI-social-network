@@ -8,11 +8,11 @@ export interface UsersDetails {
 }
 
 export interface UsersState {
-    users: UsersDetails[];
+    usersList: UsersDetails[];
     needRefreshUsers: boolean;
 }
 
-export const UsersIS = {
+export const UsersIS: UsersState = {
     usersList: [],
     needRefreshUsers: true,
 }

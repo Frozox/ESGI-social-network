@@ -24,7 +24,7 @@ export const userType = {
     DELETE_USER_SUCCESS: 'DELETE_USER_SUCCESS',
 }
 
-export const usersReducer = (state = myUsersIS, action: UsersActionTypes) => {
+export const userReducer = (state = myUsersIS, action: UsersActionTypes) => {
     switch (action.type) {
         case userType.CREATE_USER_REQUEST:
             return {

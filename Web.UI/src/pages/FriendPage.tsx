@@ -1,23 +1,34 @@
 import React from 'react';
-import { getAllUserAction } from '../utils/context/actions/admin';
-import { UsersDetails } from '../utils/context/reducers/admin';
+import { getAllFriendsAction } from '../utils/context/actions/friends';
+import { getMyUserAction } from '../utils/context/actions/users';
+import { FriendsDetails } from '../utils/context/reducers/friends';
 import { useStoreContext } from "../utils/context/StoreContext";
 
 const FriendPage = () => {
-    const { dispatch, state: { users: { usersList, needRefreshUsers } } } = useStoreContext();
+    const { dispatch, state: { friends: { friendsList, needRefreshFriends }, user: { id } } } = useStoreContext();
     React.useEffect(() => {
-        if (needRefreshUsers) getAllUserAction(dispatch);
-    }, [needRefreshUsers]);
+        if (needRefreshFriends) { getAllFriendsAction(dispatch)}
+    }, [needRefreshFriends]);
 
+    React.useEffect(() => {
+        if(id === 0) getMyUserAction(dispatch);
+        console.log(id);
+    }, [id]);
+    
     return (
-        <div>
+        <div className='w-full h-screen'>
             <h1>FriendPage</h1>
-            <ul>
-                {usersList.map((data: UsersDetails, index) => {
-                    return <li key={index}>{data.firstName}<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Je t'aimeuh</button></li>
-                }
+            <div>
+                {friendsList.map((data: FriendsDetails, index) => {
+                    return (
+                    
+                    <div key={index}>
+                        <p>{data.firstName}</p>
+                        <p>{data.lastName}</p>
+                    </div>
                 )}
-            </ul>
+                )}
+            </div>
         </div>
     )
 }

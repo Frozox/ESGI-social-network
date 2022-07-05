@@ -1,11 +1,25 @@
 const { User } = require("../models/postgres");
 const { ValidationError } = require("sequelize");
 const { createToken } = require("../lib/jwt");
+const bcryptjs = require("bcryptjs");
 
 module.exports = {
     getUsers: async (req, res) => {
         try {
             const users = await User.findAll({ where: req.query });
+            res.json(users);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    getMyUsers: async (req, res) => {
+        try {
+            const users = await User.findAll({
+                where: {
+                    id: req.user.id,
+                },
+            });
             res.json(users);
         } catch (error) {
             res.sendStatus(500);
@@ -90,19 +104,18 @@ module.exports = {
                     email: "Email not found",
                 });
             }
-            if (user.password !== req.body.password) {
+            if (await bcryptjs.compare(req.body.password, user.password)) {
+                res.json({
+                    token: createToken(user),
+                });
+            }else{
                 return res.status(401).json({
-                    password: "Password is incorrect",
+                    password: "Password not correct",
                 });
             }
-            res.json({
-                token: createToken(user),
-            });
         } catch (error) {
             res.sendStatus(500);
             console.error(error);
         }
     },
-    addFriend: async (req, res) => {
-    }
 }

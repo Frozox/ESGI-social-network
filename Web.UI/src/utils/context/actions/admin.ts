@@ -13,7 +13,7 @@ export const getAllUserAction = async (dispatch: Function) => {
         const response = await getAllUsers();
         dispatch({
             type: 'GET_USERS_SUCCESS',
-            payload: response.data,
+            payload: response,
         });
     }catch(error){
         console.log(error);

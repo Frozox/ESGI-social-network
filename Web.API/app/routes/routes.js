@@ -3,6 +3,7 @@ const router = new express.Router;
 
 const HttpCode = require('../controllers/HttpCode');
 const User = require('../controllers/User');
+const Friend = require('../controllers/Friend');
 
 router.get('/', (_, res) => res.send("hey API works !"));
 
@@ -16,10 +17,14 @@ router.delete('/httpCodes/:id', HttpCode.deleteHttpCode);
 // User Routes
 router.get('/users', User.getUsers);
 router.get('/users/:id', User.getUserById);
+router.get('/me', User.getMyUsers);
 router.post('/users', User.createUser);
 router.put('/users/:id', User.editUser);
 router.delete('/users/:id', User.deleteUser);
 router.post("/login", User.loginUser);
-router.post("/users/friends", User.addFriend);
+
+// Friend Routes
+router.post("/friends", Friend.addFriend);
+router.get("/friends", Friend.getMyFriends);
 
 module.exports = router;

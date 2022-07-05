@@ -3,6 +3,7 @@ const router = new express.Router;
 
 const HttpCode = require('../controllers/HttpCode');
 const User = require('../controllers/User');
+const Log = require('../controllers/Log')
 
 router.get('/', (_, res) => res.send("hey API works !"));
 
@@ -20,5 +21,10 @@ router.post('/users', User.createUser);
 router.put('/users/:id', User.editUser);
 router.delete('/users/:id', User.deleteUser);
 router.post("/login", User.loginUser);
+
+// Logs Routes
+router.get('/logs', Log.getLogs);
+router.get('/logs/:id', Log.getLogById);
+router.post('/logs', Log.createLog);
 
 module.exports = router;

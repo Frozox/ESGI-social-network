@@ -1,0 +1,10 @@
+GET http://localhost:3000/chatMessages
+Accept: application/json
+Content-Type: application/json
+
+{
+  "params": {
+    "userSrc": 2,
+    "userDest": 1
+  }
+}

@@ -33,5 +33,9 @@ router.get('/logs/:id', Log.getLogById);
 router.post('/logs', Log.createLog);
 // Chat Routes
 router.get('/chatMessages', Chat.getChatMessages);
+router.get('/chatMessages/:id', Chat.getChatMessageById);
+router.post('/chatMessages', Chat.createChatMessage);
+router.put('/chatMessages/:id', Chat.editChatMessage);
+router.delete('/chatMessages/:id', Chat.deleteChatMessage);
 
 module.exports = router;

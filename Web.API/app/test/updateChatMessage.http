@@ -1,0 +1,8 @@
+PUT http://localhost:3000/chatMessages/5
+accept: application/json
+content-type: application/json
+
+{
+  "explicit": true,
+  "updatedAt": "2017-01-01T00:00:00.000Z"
+}

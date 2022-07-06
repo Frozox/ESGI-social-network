@@ -24,8 +24,16 @@ const Logger = new SyslogPro.RFC5424({
 })
 
 const logMessage = async (message, severity, isServer = true) => {
-  const normalizedMessage = (await Logger.buildMessage(message, {severity: severity})).trim();
+
+  if(message instanceof Error)
+    message = `${message.name}: ${message.message} [${message.stack}]`;
+
+  const normalizedMessage = (await Logger.buildMessage(message.toString(), {severity: severity})).trim();
   const storedLog = await Log.create(bodyParser(normalizedMessage, isServer));
+
+  if(this.socketIO)
+    this.socketIO.sockets.in('adminLogs').emit('logs:read', storedLog);
+
   return [normalizedMessage, storedLog];
 }
 
@@ -43,6 +51,9 @@ const bodyParser = (normalizedMessage, source) => {
 }
 
 module.exports = {
+  useSocketIO: async (io) => {
+    this.socketIO = io;
+  },
   emer: async (message, isServer) => {
     const [normalizedMessage, storedLog] = await logMessage(message, RFC5424_SEVERITY.EMERGENCY, isServer);
     console.log(normalizedMessage);

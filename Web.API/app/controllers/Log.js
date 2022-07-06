@@ -11,7 +11,7 @@ module.exports = {
         .skip((page - 1) * perPage);
       res.json(result);
     } catch (error) {
-      Logger.err(error.message);
+      Logger.err(error);
       res.sendStatus(500);
     }
   },
@@ -26,23 +26,19 @@ module.exports = {
         res.json(result);
       }
     } catch (error) {
-      Logger.err(error.message);
+      Logger.err(error);
       res.sendStatus(500);
     }
   },
   createLog: async (req, res) => {
     try {
-      const storedLog = await Logger.fromSeverity(
-        req.body.message,
-        parseInt(req.body.severity),
-        false
-      );
+      const storedLog = await Logger.fromSeverity(req.body.message, parseInt(req.body.severity), false);
       res.status(201).json(storedLog);
     } catch (error) {
       if (error instanceof mongoose.Error.ValidationError) {
         res.status(422).json(formatError(error));
       } else {
-        Logger.err(error.message);
+        Logger.err(error);
         res.sendStatus(500);
       }
     }

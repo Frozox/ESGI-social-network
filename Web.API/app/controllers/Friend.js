@@ -4,12 +4,14 @@ const { ValidationError } = require("sequelize");
 module.exports = {
     addFriend: async (req, res) => {
         try {
+            console.log(req.body);
             const user = await Friend.create(req.body);
             res.status(201).json(user);
         } catch (error) {
             console.log(error);
             //console.log(res);
             if (error instanceof ValidationError) {
+                console.log(error);
                 res.status(422).json({
                     quantity: "must be greather than 0",
                     title: "must not be empty",

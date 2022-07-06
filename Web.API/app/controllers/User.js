@@ -1,5 +1,5 @@
 const { User } = require("../models/postgres");
-const { ValidationError } = require("sequelize");
+const { ValidationError, Op } = require("sequelize");
 const { createToken } = require("../lib/jwt");
 const bcryptjs = require("bcryptjs");
 
@@ -29,6 +29,36 @@ module.exports = {
     getUserById: async (req, res) => {
         try {
             const user = await User.findByPk(req.params.id);
+            if (!user) {
+                res.sendStatus(404);
+            } else {
+                res.json(user);
+            }
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    getUsersExceptMe: async (req, res) => {
+        try {
+            const user = await User.findAll({
+                where: {
+                    id: { [Op.ne]: req.params.id },
+                },
+            });
+            if (!user) {
+                res.sendStatus(404);
+            } else {
+                res.json(user);
+            }
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    getUserByMail: async (req, res) => {
+        try {
+            const user = await User.findByPk(req.params.mail);
             if (!user) {
                 res.sendStatus(404);
             } else {
@@ -107,6 +137,7 @@ module.exports = {
             if (await bcryptjs.compare(req.body.password, user.password)) {
                 res.json({
                     token: createToken(user),
+                    myUser: user,
                 });
             }else{
                 return res.status(401).json({

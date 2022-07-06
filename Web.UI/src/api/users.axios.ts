@@ -7,6 +7,11 @@ export const getMyUser = async () => {
     return response.data;
 }
 
+export const getMyUserByMail = async (mail: string) => {
+    const response = await instance.get(`/users/${mail}`);
+    return response.data;
+}
+
 export const getUserById = async (id: number) => {
     const response = await instance.get(`/users/${id}`);
     return response.data;
@@ -30,6 +35,11 @@ export const getAllUsers = async () => {
 }
 
 export const addFriendUser = async (payload: any) => {
-    const response = await instance.post(`/users/friends`, payload);
+    const response = await instance.post(`/friends`, payload);
+    return response.data;
+}
+
+export const getAllUsersExceptMe = async (id: number) => {
+    const response = await instance.get(`/me/${id}`);
     return response.data;
 }

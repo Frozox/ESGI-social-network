@@ -20,7 +20,7 @@ Friend.init(
     },
     confirmed_at: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     active: {
         type: DataTypes.BOOLEAN,

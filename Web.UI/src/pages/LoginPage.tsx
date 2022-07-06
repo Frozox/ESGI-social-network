@@ -1,6 +1,9 @@
+import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/users.axios';
+import { authLoginRequest } from '../utils/context/actions/auth';
+import { useStoreContext } from '../utils/context/StoreContext';
 
 interface ILoginForm {
     email: string;
@@ -10,14 +13,16 @@ interface ILoginForm {
 const LoginPage = () => {
     const { register, handleSubmit } = useForm<ILoginForm>();
     const navigate = useNavigate();
+    const { dispatch } = useStoreContext();
 
     const onSubmit: SubmitHandler<ILoginForm> = async (data: any) => {
         console.log(data);
         loginUser(data).then(() => {
             console.log(data);
-            navigate('/chat');
-        }).catch(() => {
-            console.log('error');
+            authLoginRequest(dispatch, navigate, data);
+            navigate('/friend');
+        }).catch((error) => {
+            console.log(error);
         });
     };
 

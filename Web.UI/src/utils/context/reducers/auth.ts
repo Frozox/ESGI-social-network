@@ -19,6 +19,8 @@ export const authIS = {
     token: localStorage.getItem("token") || '',
     activated: false,
     associationsCount: 0,
+    //declare id in int
+    data: localStorage.getItem("myUser"),
 }
 
 export const authReducer = (state = {}, action: authActionTypes) => {

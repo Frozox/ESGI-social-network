@@ -41,7 +41,7 @@ stop:
 
 # Down project
 down:
-	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" down
+	docker-compose -p ${projectName} -f ${webApiDocker} --env-file="${webApi}/${envFile}" down --remove-orphans
 	docker-compose -p ${projectName} -f ${webUiDocker} down
 
 migrate:

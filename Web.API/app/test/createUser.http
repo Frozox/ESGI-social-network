@@ -1,0 +1,27 @@
+POST http://localhost:3000/users
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "toto@gmail.com",
+    "password": "",
+    "firstName": "Toto",
+    "lastName": "Test",
+    "createdAt": "2018-01-01T00:00:00.000Z",
+    "updatedAt": "2018-01-01T00:00:00.000Z"
+}
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "tata@gmail.com",
+  "password": "",
+  "firstName": "Tata",
+  "lastName": "Test",
+  "createdAt": "2018-01-01T00:00:00.000Z",
+  "updatedAt": "2018-01-01T00:00:00.000Z"
+}

@@ -33,13 +33,13 @@ module.exports = {
             console.log(error);
             //console.log(res);
             if (error instanceof ValidationError) {
-            res.status(422).json({
-                quantity: "must be greather than 0",
-                title: "must not be empty",
-            });
+                res.status(422).json({
+                    quantity: "must be greather than 0",
+                    title: "must not be empty",
+                });
             } else {
-            res.sendStatus(500);
-            console.error(error);
+                res.sendStatus(500);
+                console.error(error);
             }
         }
     },

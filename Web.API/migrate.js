@@ -1,9 +1,14 @@
 const { connection } = require("./app/models/postgres");
+const { mongoose } = require("./app/models/mongo");
+
+mongoose.connection.on("connected", () => {
+    console.log("Connected to MongoDB");
+});
 
 connection
     .sync({alter: true})
     .then(() => {
-        console.log("Database synced");
+        console.log("Postgres Database synced");
     }).catch(err => {
         console.log("Error syncing database");
         console.log(err);

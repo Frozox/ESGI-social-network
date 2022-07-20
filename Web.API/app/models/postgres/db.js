@@ -1,6 +1,9 @@
 const Sequelize = require("sequelize");
 const Logger = require('../../services/Logger');
 
+console.log("Connecting to Postgres...");
+console.log(process.env.POSTGRES_CON_STRING);
+
 const connection = new Sequelize(process.env.POSTGRES_CON_STRING, {
   useNewUrlParser: true,
   protocol: "postgres",

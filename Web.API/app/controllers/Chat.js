@@ -1,4 +1,5 @@
 const { Chat, User} = require('../models/postgres');
+const { messageChat } = require('../models/mongo');
 
 module.exports = {
   /**
@@ -32,10 +33,18 @@ module.exports = {
    */
   getChatMessageById: async (req, res) => {
     try {
-      const result = await Chat.findOne({
-        where: {id: req.params.id}
-      });
-      res.json(result);
+      const resultPostgres = await Chat.findOne({ where: { id: req.params.id } });
+      const resultMongo = await messageChat.findOne({ idPostgres: req.params.id });
+      console.log(resultPostgres);
+      console.log(resultMongo);
+      if (resultPostgres && resultMongo) {
+          res.json({
+              postgres: resultPostgres,
+              mongo: resultMongo.content
+          });
+      }else{
+          res.sendStatus(404);
+      }
     } catch (error) {
       res.sendStatus(500);
       console.error(error);
@@ -50,8 +59,16 @@ module.exports = {
    */
   createChatMessage: async (req, res) => {
     try {
-      const result = await Chat.create(req.body);
-      res.status(201).json(result);
+      const resultPostgres = await Chat.create(req.body.postgres);
+      if (resultPostgres && resultPostgres.id) {
+        req.body.mongo.idPostgres = resultPostgres.id;
+        const resultMongo = await messageChat.create(req.body.mongo);
+        const result = {
+          postgres: resultPostgres,
+          mongo: resultMongo.content
+        }
+        res.json(result);
+      }
     } catch (error) {
       res.sendStatus(500);
       console.error(error);
@@ -66,10 +83,12 @@ module.exports = {
    */
   editChatMessage: async (req, res) => {
     try {
-      const result = await Chat.updateOne(req.body, {
-        where: {id: req.params.id},
+      const updateMongo = await messageChat.updateOne(req.body, {where: {idPostgres: req.params.id}}, {returning: true});
+      const updatePostgres = await Chat.updateOne({updatedAt: new Date()}, {where: {id: req.params.id}}, {returning: true});
+      res.json({
+        postgres: updatePostgres,
+        mongo: updateMongo.content,
       });
-      res.json(result);
     } catch (error) {
       res.sendStatus(500);
       console.error(error);

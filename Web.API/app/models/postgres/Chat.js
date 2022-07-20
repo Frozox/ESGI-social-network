@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
 const connection = require("./db"); // connection is the connection to the POSTGRES database
-const { User } = require("./User");
 
 class Chat extends Model {}
 

@@ -1,5 +1,5 @@
-const { Friend } = require("../models/postgres");
-const { ValidationError } = require("sequelize");
+const { Friend, User } = require("../models/postgres");
+const { ValidationError, Op } = require("sequelize");
 
 module.exports = {
     addFriend: async (req, res) => {
@@ -24,11 +24,40 @@ module.exports = {
     },
     getMyFriends: async (req, res) => {
         try {
-            const users = await Friend.findAll({ where: req.query });
-            res.json(users);
+            const friend = await Friend.findAll({
+                where: {
+                    user_dest: { [Op.eq]: req.params.id },
+                    active: { [Op.ne]: true },
+                },
+                include: [
+                    { model: User, as: "send" },
+                ],
+            });
+            console.log(friend);
+            res.json(friend);
         } catch (error) {
             res.sendStatus(500);
             console.error(error);
         }
-    }
+    },
+    editFriend: async (req, res) => {
+        try {
+            const result = await Friend.update(req.body, {
+                where: { id: req.params.id },
+            });
+            console.log(result);
+            res.json(result);
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                console.error(error);
+                res.status(422).json({
+                    quantity: "must be greather than 0",
+                    title: "must not be empty",
+                });
+            } else {
+                res.sendStatus(500);
+                console.error(error);
+            }
+        }
+    },
 };

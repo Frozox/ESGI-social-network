@@ -1,7 +1,8 @@
-const { User } = require("../models/postgres");
-const { ValidationError, Op } = require("sequelize");
+const { User, Friend } = require("../models/postgres");
+const { ValidationError, Op, where } = require("sequelize");
 const { createToken } = require("../lib/jwt");
 const bcryptjs = require("bcryptjs");
+//const Friend = require("./Friend");
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -45,6 +46,9 @@ module.exports = {
                 where: {
                     id: { [Op.ne]: req.params.id },
                 },
+                include: [
+                    { model: Friend, as: 'userList' },
+                ]
             });
             if (!user) {
                 res.sendStatus(404);
@@ -139,7 +143,7 @@ module.exports = {
                     token: createToken(user),
                     myUser: user,
                 });
-            }else{
+            } else {
                 return res.status(401).json({
                     password: "Password not correct",
                 });

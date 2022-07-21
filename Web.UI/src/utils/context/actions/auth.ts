@@ -29,7 +29,7 @@ export const authLoginRequest = async (dispatch: Function, navigate: NavigateFun
         endLoader(dispatch);
 
         localStorage.setItem("token", response.token);
-        localStorage.setItem("myUser", Number(response.myUser.id));
+        localStorage.setItem("myUser", response.myUser.id);
         navigate("/friend");
     } catch (error) {
         console.log(error);

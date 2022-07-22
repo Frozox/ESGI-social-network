@@ -3,7 +3,12 @@ import { getAxiosInstance } from "./apiUtils";
 const instance = getAxiosInstance();
 
 export const getMyUser = async () => {
-    const response = await instance.get(`/users/me`);
+    const response = await instance.get(`/me`);
+    return response.data;
+}
+
+export const getMyUserByMail = async (mail: string) => {
+    const response = await instance.get(`/users/${mail}`);
     return response.data;
 }
 
@@ -21,5 +26,20 @@ export const createUser = async (payload: any) => {
 
 export const loginUser = async (payload: any) => {
     const response = await instance.post(`/login`, payload);
+    return response.data;
+}
+
+export const getAllUsers = async () => {
+    const response = await instance.get(`/users`);
+    return response.data;
+}
+
+export const addFriendUser = async (payload: any) => {
+    const response = await instance.post(`/friends`, payload);
+    return response.data;
+}
+
+export const getAllUsersExceptMe = async (id: number) => {
+    const response = await instance.get(`/me/${id}`);
     return response.data;
 }

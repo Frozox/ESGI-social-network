@@ -1,6 +1,6 @@
 import {UsersActionTypes} from "../actions/users";
 
-export const usersIS = {
+export const myUsersIS = {
     id: 0,
     firstName: '',
     lastName: '',
@@ -13,7 +13,7 @@ export const usersIS = {
     token: '',
 }
 
-export const usersType = {
+export const userType = {
     CREATE_USER_REQUEST: 'CREATE_USER_REQUEST',
     CREATE_USER_SUCCESS: 'CREATE_USER_SUCCESS',
     GET_USER_REQUEST: 'GET_USER_REQUEST',
@@ -24,47 +24,47 @@ export const usersType = {
     DELETE_USER_SUCCESS: 'DELETE_USER_SUCCESS',
 }
 
-export const usersReducer = (state = usersIS, action: UsersActionTypes) => {
+export const userReducer = (state = myUsersIS, action: UsersActionTypes) => {
     switch (action.type) {
-        case usersType.CREATE_USER_REQUEST:
+        case userType.CREATE_USER_REQUEST:
             return {
                 ...state,
                 isLoading: true,
             };
-        case usersType.CREATE_USER_SUCCESS:
+        case userType.CREATE_USER_SUCCESS:
             return {
                 ...state,
                 ...action.payload,
                 isLoading: false,
             }
-        case usersType.GET_USER_REQUEST:
+        case userType.GET_USER_REQUEST:
             return {
                 ...state,
                 isLoading: true,
             }
-        case usersType.GET_USER_SUCCESS:
+        case userType.GET_USER_SUCCESS:
             return {
                 ...state,
                 ...action.payload,
                 isLoading: false,
             }
-        case usersType.UPDATE_USER_REQUEST:
+        case userType.UPDATE_USER_REQUEST:
             return {
                 ...state,
                 isLoading: true,
             }
-        case usersType.UPDATE_USER_SUCCESS:
+        case userType.UPDATE_USER_SUCCESS:
             return {
                 ...state,
                 ...action.payload,
                 isLoading: false,
             }
-        case usersType.DELETE_USER_REQUEST:
+        case userType.DELETE_USER_REQUEST:
             return {
                 ...state,
                 isLoading: true,
             }
-        case usersType.DELETE_USER_SUCCESS:
+        case userType.DELETE_USER_SUCCESS:
             return {
                 ...state,
                 ...action.payload,

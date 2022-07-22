@@ -26,11 +26,11 @@ export const authLoginRequest = async (dispatch: Function, navigate: NavigateFun
             type: authTypes.LOGIN_SUCCESS,
             payload: response,
         });
-
         endLoader(dispatch);
 
         localStorage.setItem("token", response.token);
-        navigate("/Home");
+        localStorage.setItem("myUser", response.myUser.id);
+        navigate("/friend");
     } catch (error) {
         console.log(error);
     }

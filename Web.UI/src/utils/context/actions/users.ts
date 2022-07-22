@@ -1,17 +1,17 @@
-import {getMyUser, getUserById} from "../../../api/users.axios";
+import {getUserById, getMyUserByMail} from "../../../api/users.axios";
 
 export interface UsersActionTypes {
     type: string;
     payload?: any;
 }
 
-export const getMyUserAction = async (dispatch: Function) => {
+export const getMyUserByMailAction = async (dispatch: Function, mail: string) => {
     dispatch({
         type: 'GET_USER_REQUEST',
     });
 
     try {
-        const response = await getMyUser();
+        const response = await getMyUserByMail(mail);
         dispatch({
             type: 'GET_USER_SUCCESS',
             payload: response,

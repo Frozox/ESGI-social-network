@@ -17,14 +17,7 @@ const LoginPage = () => {
     localStorage.clear();
 
     const onSubmit: SubmitHandler<ILoginForm> = async (data: any) => {
-        console.log(data);
-        loginUser(data).then(() => {
-            console.log(data);
-            authLoginRequest(dispatch, navigate, data);
-            navigate('/chat');
-        }).catch((error) => {
-            console.log(error);
-        });
+        authLoginRequest(dispatch, navigate, data);
     };
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

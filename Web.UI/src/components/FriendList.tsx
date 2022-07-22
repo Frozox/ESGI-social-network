@@ -1,6 +1,5 @@
 import { CheckIcon, UserAddIcon } from "@heroicons/react/outline"
 import React from "react"
-import { getUserById } from "../api/users.axios"
 import { getAllUserExceptUserAction } from "../utils/context/actions/admin"
 import { createNewFriendRequestAction, getAllFriendsAction } from "../utils/context/actions/friends"
 import { UsersDetails } from "../utils/context/reducers/admin"
@@ -32,21 +31,24 @@ const UserCard = ({ user, toAdd, action, added }: { user: any, toAdd?: boolean, 
 export const FriendList = () => {
     const { dispatch, state: {
         friends: { friendsList, needRefreshFriends },
-        auth: { data: idUser },
+        myUser: { id, firstName },
         users: { usersList, needRefreshUsers }
     } } = useStoreContext()
 
-    React.useEffect(() => {
-        if (needRefreshFriends) { idUser && getAllFriendsAction(dispatch, Number(idUser)) }
-    }, [needRefreshFriends])
+
 
     React.useEffect(() => {
-        if (needRefreshUsers) { getAllUserExceptUserAction(dispatch, Number(idUser)) }
+        if (needRefreshFriends) { id && getAllFriendsAction(dispatch, id) }
+    }, [needRefreshFriends])
+    console.log(friendsList);
+
+    React.useEffect(() => {
+        if (needRefreshUsers) { getAllUserExceptUserAction(dispatch, id) }
     }, [needRefreshUsers])
 
     const handleAddFriend = (userId: number) => {
         const friend = {
-            user_src: Number(idUser),
+            user_src: id,
             user_dest: userId,
             invite_at: new Date().toISOString(),
             confirm_at: null,

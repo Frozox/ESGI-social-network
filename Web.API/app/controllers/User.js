@@ -14,16 +14,11 @@ module.exports = {
             console.error(error);
         }
     },
-    getMyUsers: async (req, res) => {
+    getMyUser: async (req, res) => {
         try {
-            const users = await User.findAll({
-                where: {
-                    id: req.user.id,
-                },
-            });
-            res.json(users);
+            const user = await User.findOne({ where: { id: req.user.id } });
+            res.json(user);
         } catch (error) {
-            res.sendStatus(500);
             console.error(error);
         }
     },

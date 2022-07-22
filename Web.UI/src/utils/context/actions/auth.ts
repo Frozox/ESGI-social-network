@@ -30,7 +30,7 @@ export const authLoginRequest = async (dispatch: Function, navigate: NavigateFun
 
         localStorage.setItem("token", response.token);
         localStorage.setItem("myUser", response.myUser.id);
-        navigate("/friend");
+        navigate("/chat");
     } catch (error) {
         console.log(error);
     }

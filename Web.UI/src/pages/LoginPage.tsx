@@ -14,6 +14,7 @@ const LoginPage = () => {
     const { register, handleSubmit } = useForm<ILoginForm>();
     const navigate = useNavigate();
     const { dispatch } = useStoreContext();
+    localStorage.clear();
 
     const onSubmit: SubmitHandler<ILoginForm> = async (data: any) => {
         console.log(data);

@@ -16,3 +16,8 @@ export const acceptFriend = async (payload: any, id: string) => {
     const response = await instance.put(`/friend/${id}`, payload);
     return response.data;
 }
+
+export const getFriendsRequests = async (id: number) => {
+    const response = await instance.get(`/friend_request/${id}`);
+    return response.data;
+}

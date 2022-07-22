@@ -1,6 +1,6 @@
 import { CheckIcon, UserAddIcon } from "@heroicons/react/outline"
 import React from "react"
-import { getMyFriends } from "../api/friends.axios"
+import { getFriendsRequests, getMyFriends } from "../api/friends.axios"
 import { getAllUserExceptUserAction } from "../utils/context/actions/admin"
 import { createNewFriendRequestAction, getAllFriendsAction } from "../utils/context/actions/friends"
 import { UsersDetails } from "../utils/context/reducers/admin"
@@ -66,6 +66,21 @@ export const FriendList = () => {
         })
     }, [id])
 
+    React.useEffect(() => {
+        getFriendsRequests(id).then(res => {
+            console.log(res.map((friend: any) => {
+                if (friend.send.id !== id) {
+                    return {
+                        id: friend.send.id,
+                        firstName: friend.send.firstName,
+                        lastName: friend.send.lastName,
+                    }
+                }
+            }));
+        })
+    }, [id])
+
+
     const handleAddFriend = (userId: number) => {
         const friend = {
             user_src: id,
@@ -107,17 +122,3 @@ export const FriendList = () => {
         </div>
     )
 }
-
-// {usersList.filter((user: UsersDetails) => {
-//     return !friendsList.find((friend: FriendsDetails) => {
-//         return friend.active
-//     })
-// }).map((user: any, index) => {
-//     return (
-//         <UserCard user={user} toAdd action={() => handleAddFriend(user.id)} key={index} added={
-//             friendsList.find((friend: any) => {
-//                 return friend.user_dest === user.id
-//             })
-//         } />
-//     )
-// })}

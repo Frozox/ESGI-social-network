@@ -64,4 +64,26 @@ module.exports = {
             }
         }
     },
+    getFriendsRequest: async (req, res) => {
+        try {
+            const friend = await Friend.findAll({
+                where: {
+                    [Op.or]: [
+                        { user_dest: { [Op.eq]: req.params.id } },
+                        { user_src: { [Op.eq]: req.params.id } },
+                    ],
+                    active: { [Op.eq]: false }
+                },
+                include: [
+                    { model: User, as: "send" },
+                    { model: User, as: "receive" },
+                ],
+            });
+            console.log(friend);
+            res.json(friend);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    }
 };

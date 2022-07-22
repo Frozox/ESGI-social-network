@@ -29,6 +29,7 @@ router.post("/login", User.loginUser);
 router.post("/friends", Friend.addFriend);
 router.get("/friend/:id", Friend.getMyFriends);
 router.put("/friend/:id", Friend.editFriend);
+router.get("/friend_request/:id", Friend.getFriendsRequest);
 
 // Logs Routes
 router.get('/logs', Log.getLogs);

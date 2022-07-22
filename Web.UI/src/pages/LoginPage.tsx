@@ -21,7 +21,7 @@ const LoginPage = () => {
         loginUser(data).then(() => {
             console.log(data);
             authLoginRequest(dispatch, navigate, data);
-            navigate('/friend');
+            navigate('/chat');
         }).catch((error) => {
             console.log(error);
         });

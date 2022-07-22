@@ -4,6 +4,11 @@ export interface FriendsDetails {
     id: number;
     firstName: string;
     lastName: string;
+    user_src: number;
+    user_dst: number;
+    invited_at: string;
+    confirmed_at: string;
+    active: boolean;
 }
 
 export interface FriendsState {

@@ -26,11 +26,15 @@ module.exports = {
         try {
             const friend = await Friend.findAll({
                 where: {
-                    user_dest: { [Op.eq]: req.params.id },
-                    active: { [Op.ne]: true },
+                    [Op.or]: [
+                        { user_dest: { [Op.eq]: req.params.id } },
+                        { user_src: { [Op.eq]: req.params.id } },
+                    ],
+                    active: { [Op.eq]: true }
                 },
                 include: [
                     { model: User, as: "send" },
+                    { model: User, as: "receive" },
                 ],
             });
             console.log(friend);

@@ -5,7 +5,7 @@ export interface FriendsDetails {
     firstName: string;
     lastName: string;
     user_src: number;
-    user_dst: number;
+    user_dest: number;
     invited_at: string;
     confirmed_at: string;
     active: boolean;

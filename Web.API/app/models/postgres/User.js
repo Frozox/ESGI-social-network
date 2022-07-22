@@ -29,8 +29,10 @@ User.init(
       allowNull: false,
     },
     friendList: {
-      type: DataTypes.ARRAY,
+      // create DaraTypes [{ id }]
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
+      defaultValue: [],
     }
   },
   {

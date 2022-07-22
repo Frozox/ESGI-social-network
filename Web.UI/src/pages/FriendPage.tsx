@@ -94,10 +94,3 @@ const FriendPage = () => {
 
 export default FriendPage;
 
-function state(state: any) {
-    throw new Error('Function not implemented.');
-}
-function getAllFriendRequestAction(dispatch: ({ }: {}) => void, data: string | null) {
-    throw new Error('Function not implemented.');
-}
-

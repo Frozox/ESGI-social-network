@@ -27,6 +27,10 @@ User.init(
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    friendList: {
+      type: DataTypes.ARRAY,
+      allowNull: false,
     }
   },
   {

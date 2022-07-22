@@ -10,6 +10,7 @@ export interface IRegisterForm {
     password: string;
     username: string;
     section: string;
+    friendList: string;
 }
 
 interface IRegisterPageProps {
@@ -37,7 +38,6 @@ const InputsAreaRegister = ({ label, formControlName, key, type }: IRegisterPage
 
 const RegisterPage = () => {
     const [error, setError] = React.useState('');
-    const navigate = useNavigate();
 
     const { handleSubmit, register } = useForm<IRegisterForm>();
 
@@ -45,7 +45,6 @@ const RegisterPage = () => {
         //console.log(data);
         createUser(data).then(() => {
             console.log(data);
-            navigate('/login');
         }).catch(() => {
             setError('User already exists');
         });

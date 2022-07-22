@@ -11,6 +11,7 @@ export const myUsersIS = {
     deletedAt: '',
     validatedAt: '',
     token: '',
+    friendList: [],
 }
 
 export const userType = {

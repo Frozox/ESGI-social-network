@@ -35,9 +35,9 @@ const SideBar = ({ children, location }: navBarProps) => {
   }
   return (
     <>
-      {!display ? ('') : (
-        <div className="w-44 left-0 top-0 h-screen relative">
-          <aside className="w-full left-0 top-0 h-screen bg-white-700 fixed absolute">
+      <div className="flex">
+        {!display ? ('') : (
+          <aside className="w-44 left-0 top-0 h-screen bg-white-700 fixed ">
             <div className='max-w-[250px] border-r relative flex flex-col py-10 min-h-screen group' >
               <div className='grow'>
                 <div className='my-2 mb-6' >
@@ -76,16 +76,18 @@ const SideBar = ({ children, location }: navBarProps) => {
                 <div className='my-2' >
                   <ul className="relative">
                     <li className="relative">
-                      <NavItem link="/logout" icon={<LogoutIcon />} name="Logout"/>
+                      <NavItem link="/logout" icon={<LogoutIcon />} name="Logout" />
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
           </aside>
-        </div>
-      )}
-      {children}
+        )}
+        <main className={`${display ? 'ml-44' : ''} flex-1`}>
+          {children}
+        </main>
+      </div>
     </>
   )
 }

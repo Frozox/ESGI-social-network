@@ -27,7 +27,7 @@ User.init(
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-    }
+    },
   },
   {
     sequelize: connection,

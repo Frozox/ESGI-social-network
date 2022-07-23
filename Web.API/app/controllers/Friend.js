@@ -5,7 +5,7 @@ module.exports = {
     addFriend: async (req, res) => {
         try {
             console.log(req.body);
-            const user = await Friend.create(req.body);
+            const user = await Friend.create(req.body); // check if request already exists in user_src or user_dest
             res.status(201).json(user);
         } catch (error) {
             console.log(error);
@@ -26,11 +26,15 @@ module.exports = {
         try {
             const friend = await Friend.findAll({
                 where: {
-                    user_dest: { [Op.eq]: req.params.id },
-                    active: { [Op.ne]: true },
+                    [Op.or]: [
+                        { user_dest: { [Op.eq]: req.params.id } },
+                        { user_src: { [Op.eq]: req.params.id } },
+                    ],
+                    active: { [Op.eq]: true }
                 },
                 include: [
                     { model: User, as: "send" },
+                    { model: User, as: "receive" },
                 ],
             });
             console.log(friend);
@@ -60,4 +64,76 @@ module.exports = {
             }
         }
     },
+    getFriendsRequest: async (req, res) => {
+        try {
+            const friend = await Friend.findAll({
+                where: {
+                    [Op.or]: [
+                        { user_dest: { [Op.eq]: req.params.id } },
+                    ],
+                    active: { [Op.eq]: false }
+                },
+                include: [
+                    { model: User, as: "send" },
+                ],
+            });
+            console.log(friend);
+            res.json(friend);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    checkIfRequestIsSent: async (req, res) => {
+        try {
+            const friend = await Friend.findAll({
+                where: {
+                    [Op.or]: [
+                        { user_src: { [Op.eq]: req.params.id } },
+                    ],
+                    active: { [Op.eq]: false }
+                },
+                include: [
+                    { model: User, as: "receive" },
+                ],
+            });
+            console.log(friend);
+            res.json(friend);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    acceptFriendRequest: async (req, res) => {
+        try {
+            const result = await Friend.update({ active: true }, {
+                where: {
+                    user_dest: req.params.destId,
+                    user_src: req.params.srcId,
+                },
+            });
+
+            console.log(result);
+            res.json(result);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    refuseFriendRequest: async (req, res) => {
+        try {
+            const result = await Friend.destroy({
+                where: {
+                    user_dest: req.params.destId,
+                    user_src: req.params.srcId,
+                },
+            });
+
+            console.log(result);
+            res.json(result);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    }
 };

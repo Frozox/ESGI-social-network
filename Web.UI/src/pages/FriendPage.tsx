@@ -23,7 +23,7 @@ const FriendPage = () => {
     }, [needRefreshFriends]);
     console.log(friendsList);
 
-    const handleAddFriend = (userId: string) => {
+    const handleAddFriend = (userId: number) => {
         const friend = {
             user_src: Number(data),
             user_dest: userId,
@@ -63,7 +63,7 @@ const FriendPage = () => {
                                         <p className="mr-2">{user.firstName}</p>
                                         <p>{user.lastName}</p>
                                     </div>
-                                    <button className={`${btnColor} text-white font-bold py-2 px-4 rounded`} disabled={disable} onClick={() => this.handleAddFriend(user.id)}>{buttonText}</button>
+                                    <button className={`${btnColor} text-white font-bold py-2 px-4 rounded`} disabled={disable} onClick={() => handleAddFriend(user.id)}>{buttonText}</button>
                                 </div>
                             )
                         }
@@ -93,11 +93,4 @@ const FriendPage = () => {
 }
 
 export default FriendPage;
-
-function state(state: any) {
-    throw new Error('Function not implemented.');
-}
-function getAllFriendRequestAction(dispatch: ({ }: {}) => void, data: string | null) {
-    throw new Error('Function not implemented.');
-}
 

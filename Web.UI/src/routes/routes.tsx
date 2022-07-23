@@ -3,6 +3,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ChatPage from "../pages/ChatPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import FriendPage from "../pages/FriendPage";
 
 interface RequireAuthenticationProps {
     otherwise: string;
@@ -22,6 +23,7 @@ const MyRoutes = () => {
             <Route path="/chat" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
             <Route path="/" element={<OnlyWhen condition={true} otherwise="/login"><LoginPage /></OnlyWhen>} />
             <Route path="/404" element={<NotFoundPage />} />
+            <Route path="/friend" element={<OnlyWhen condition={true} otherwise="/Friend"><FriendPage /></OnlyWhen>} />
         </Routes>
     )
 }

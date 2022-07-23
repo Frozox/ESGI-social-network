@@ -2,6 +2,8 @@ import React, { Fragment } from "react"
 import { Link, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { createUser } from '../api/users.axios'
+import { authRegisterRequest } from "../utils/context/actions/auth";
+import { useStoreContext } from "../utils/context/StoreContext";
 
 export interface IRegisterForm {
     firstName: string;
@@ -10,6 +12,7 @@ export interface IRegisterForm {
     password: string;
     username: string;
     section: string;
+    friendList: string;
 }
 
 interface IRegisterPageProps {
@@ -37,18 +40,13 @@ const InputsAreaRegister = ({ label, formControlName, key, type }: IRegisterPage
 
 const RegisterPage = () => {
     const [error, setError] = React.useState('');
+    const { dispatch } = useStoreContext();
     const navigate = useNavigate();
 
     const { handleSubmit, register } = useForm<IRegisterForm>();
 
     const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
-        //console.log(data);
-        createUser(data).then(() => {
-            console.log(data);
-            navigate('/login');
-        }).catch(() => {
-            setError('User already exists');
-        });
+        authRegisterRequest(dispatch, navigate, data)
     }
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

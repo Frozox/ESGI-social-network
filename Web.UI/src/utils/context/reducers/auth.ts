@@ -17,8 +17,6 @@ export const authIS = {
     isAuthenticated: localStorage.getItem("token") ? true : false,
     error: null,
     token: localStorage.getItem("token") || '',
-    activated: false,
-    associationsCount: 0,
 }
 
 export const authReducer = (state = {}, action: authActionTypes) => {
@@ -33,8 +31,6 @@ export const authReducer = (state = {}, action: authActionTypes) => {
                 ...state,
                 isAuthenticated: true,
                 token: action.payload?.token,
-                activated: action.payload?.activated,
-                associationsCount: action.payload?.associationsCount,
             };
         case authTypes.LOGIN_FAILURE:
             return {

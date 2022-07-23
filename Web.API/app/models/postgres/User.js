@@ -3,7 +3,7 @@ const connection = require("./db");
 const bcryptjs = require("bcryptjs");
 const Chat = require("./Chat");
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
@@ -27,7 +27,7 @@ User.init(
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-    }
+    },
   },
   {
     indexes: [{ fields: ['email'], unique: true}],

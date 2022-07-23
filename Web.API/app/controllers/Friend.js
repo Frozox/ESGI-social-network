@@ -5,7 +5,7 @@ module.exports = {
     addFriend: async (req, res) => {
         try {
             console.log(req.body);
-            const user = await Friend.create(req.body);
+            const user = await Friend.create(req.body); // check if request already exists in user_src or user_dest
             res.status(201).json(user);
         } catch (error) {
             console.log(error);
@@ -70,12 +70,30 @@ module.exports = {
                 where: {
                     [Op.or]: [
                         { user_dest: { [Op.eq]: req.params.id } },
-                        { user_src: { [Op.eq]: req.params.id } },
                     ],
                     active: { [Op.eq]: false }
                 },
                 include: [
                     { model: User, as: "send" },
+                ],
+            });
+            console.log(friend);
+            res.json(friend);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    checkIfRequestIsSent: async (req, res) => {
+        try {
+            const friend = await Friend.findAll({
+                where: {
+                    [Op.or]: [
+                        { user_src: { [Op.eq]: req.params.id } },
+                    ],
+                    active: { [Op.eq]: false }
+                },
+                include: [
                     { model: User, as: "receive" },
                 ],
             });

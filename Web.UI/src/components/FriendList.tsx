@@ -1,25 +1,40 @@
 import { CheckIcon, UserAddIcon } from "@heroicons/react/outline"
 import React from "react"
-import { getFriendsRequests, getMyFriends } from "../api/friends.axios"
+import { checkIfRequestIsSent, getFriendsRequests, getMyFriends } from "../api/friends.axios"
 import { getAllUserExceptUserAction } from "../utils/context/actions/admin"
 import { createNewFriendRequestAction, getAllFriendsAction } from "../utils/context/actions/friends"
 import { UsersDetails } from "../utils/context/reducers/admin"
 import { useStoreContext } from "../utils/context/StoreContext"
 import { Avatar } from "./Avatar"
 
-const UserCard = ({ user, toAdd, action, added }: { user: any, toAdd?: boolean, action?: Function, added?: boolean }) => {
+const UserCard = ({ user, toAdd, action, added }: { user: UsersDetails, toAdd?: boolean, action?: Function, added?: number }) => {
+    const [friendsRequests, setFriendsRequests] = React.useState<any[]>([{
+        id: 0,
+    }])
+
+    React.useEffect(() => {
+        added && checkIfRequestIsSent(added).then(res => {
+            setFriendsRequests(res.map((friend: any) => {
+                return {
+                    id: friend.receive.id,
+                }
+            }))
+        })
+    }, [added])
+
     return (
         <div className="h-16 items-center p-2 my-4 bg-slate-50 shadow-lg hover:shadow-xl w-full flex flex-row justify-between rounded-xl pointer">
-            <div className="flex justify-between w-3/4 items-center">
+            <div className="flex justify-start w-3/4 items-center">
                 <Avatar initial={user.firstName + ' ' + user.lastName} />
-                <span>{user.firstName + ' ' + user.lastName}</span>
+                <span className="ml-2">{user.firstName + ' ' + user.lastName}</span>
             </div>
             {toAdd ? (
                 <div onClick={() => action!()}>
-                    {added ?
-                        <CheckIcon className="h-5 w-5 text-green-500" /> :
+                    {friendsRequests.find((friend: { id: number }) => friend.id === user.id) ? (
+                        <CheckIcon className="h-5 w-5 text-green-500 mr-2" />
+                    ) : (
                         <UserAddIcon className="h-5 w-5 hover:cursor-pointer mr-2 hover:text-blue-500 text-blue-400" />
-                    }
+                    )}
                 </div>
             ) : (
                 ''
@@ -69,17 +84,10 @@ export const FriendList = () => {
     React.useEffect(() => {
         getFriendsRequests(id).then(res => {
             console.log(res.map((friend: any) => {
-                if (friend.send.id !== id) {
-                    return {
-                        id: friend.send.id,
-                        firstName: friend.send.firstName,
-                        lastName: friend.send.lastName,
-                    }
-                }
+                return friend
             }));
         })
     }, [id])
-
 
     const handleAddFriend = (userId: number) => {
         const friend = {
@@ -113,7 +121,7 @@ export const FriendList = () => {
                         }) && user.id !== id
                     }).map((friend: any, index) => {
                         return (
-                            <UserCard user={friend} toAdd action={() => handleAddFriend(friend.id)} key={index} />
+                            <UserCard user={friend} toAdd action={() => handleAddFriend(friend.id)} key={index} added={id} />
                         )
                     })
                     }

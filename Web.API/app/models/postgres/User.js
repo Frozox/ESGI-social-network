@@ -28,12 +28,6 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    friendList: {
-      // create DaraTypes [{ id }]
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-      allowNull: false,
-      defaultValue: [],
-    }
   },
   {
     sequelize: connection,

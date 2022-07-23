@@ -21,3 +21,8 @@ export const getFriendsRequests = async (id: number) => {
     const response = await instance.get(`/friend_request/${id}`);
     return response.data;
 }
+
+export const checkIfRequestIsSent = async (id: number) => {
+    const response = await instance.get(`/request_sent/${id}`);
+    return response.data;
+}

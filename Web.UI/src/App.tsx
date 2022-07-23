@@ -1,10 +1,13 @@
 
 import './App.css'
 import MyRoutes from './routes/routes'
-
+import SideNav from "./components/SideBar";
 function App() {
   return (
-    <MyRoutes />
+    <div className="flex">
+      <SideNav />
+      <MyRoutes />
+    </div>
   )
 }
 

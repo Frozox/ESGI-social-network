@@ -1,6 +1,5 @@
 import ChatListWithSearch from "../components/chat/ChatListWithSearch";
 import ChatBox from "../components/chat/ChatBox";
-
 const ChatPage = () => {
 
     return (

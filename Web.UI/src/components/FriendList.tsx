@@ -1,11 +1,12 @@
 import { CheckIcon, UserAddIcon } from "@heroicons/react/outline"
-import React from "react"
-import { checkIfRequestIsSent, getFriendsRequests, getMyFriends } from "../api/friends.axios"
+import React, { Fragment } from "react"
+import { acceptFriendRequest, checkIfRequestIsSent, getFriendsRequests, getMyFriends, refuseFriendRequest } from "../api/friends.axios"
 import { getAllUserExceptUserAction } from "../utils/context/actions/admin"
-import { createNewFriendRequestAction, getAllFriendsAction } from "../utils/context/actions/friends"
+import { createNewFriendRequestAction } from "../utils/context/actions/friends"
 import { UsersDetails } from "../utils/context/reducers/admin"
 import { useStoreContext } from "../utils/context/StoreContext"
 import { Avatar } from "./Avatar"
+import { useModalContext } from "./modal"
 
 const UserCard = ({ user, toAdd, action, added }: { user: UsersDetails, toAdd?: boolean, action?: Function, added?: number }) => {
     const [friendsRequests, setFriendsRequests] = React.useState<any[]>([{
@@ -49,6 +50,8 @@ export const FriendList = () => {
         users: { usersList, needRefreshUsers }
     } } = useStoreContext()
 
+    const { openModal, updateModalContent, updateModalTitle, closeModal } = useModalContext()
+
     React.useEffect(() => {
         if (needRefreshUsers) { getAllUserExceptUserAction(dispatch, id) }
     }, [needRefreshUsers])
@@ -81,11 +84,17 @@ export const FriendList = () => {
         })
     }, [id])
 
+    const [myRequests, setMyRequests] = React.useState<any[]>([])
+
     React.useEffect(() => {
         getFriendsRequests(id).then(res => {
-            console.log(res.map((friend: any) => {
-                return friend
-            }));
+            setMyRequests(res.map((friend: any) => {
+                return {
+                    id: friend.send.id,
+                    firstName: friend.send.firstName,
+                    lastName: friend.send.lastName,
+                }
+            }))
         })
     }, [id])
 
@@ -100,8 +109,56 @@ export const FriendList = () => {
         createNewFriendRequestAction(dispatch, friend);
     }
 
+    const handleAcceptFriend = () => {
+        updateModalTitle('Mes demandes d\'amis')
+        updateModalContent(
+            <Fragment>
+                {myRequests.map((friend: any) => {
+                    return (
+                        <div className="h-16 items-center p-2 mt-1 bg-slate-50 shadow-lg hover:shadow-xl w-full flex flex-row justify-between rounded-xl">
+                            <span>{friend.firstName + ' ' + friend.lastName}</span>
+                            <div className="flex">
+                                <div className="bg-green-400 hover:bg-green-500 hover:cursor-pointer text-white font-bold py-2 px-4 rounded-full" onClick={() => handleAcceptFriendRequest(friend.id)}>
+                                    Accepter
+                                </div>
+                                <div className="bg-red-400 hover:bg-red-500 hover:cursor-pointer text-white font-bold py-2 px-4 rounded-full" onClick={() => handleRefuseFriendRequest(friend.id)}>
+                                    Refuser
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })}
+            </Fragment>
+        )
+        openModal()
+    }
+
+    const handleAcceptFriendRequest = (userSource: number) => {
+        acceptFriendRequest(userSource, id)
+        closeModal()
+    }
+
+    const handleRefuseFriendRequest = (userSource: number) => {
+        refuseFriendRequest(userSource, id)
+        closeModal()
+    }
+
     return (
         <div className="flex flex-col h-screen w-full p-2 border rounded-md">
+            <div className="h-20">
+                <h1 className="font-bold underline">Mes demandes</h1>
+                {
+                    myRequests.length === 0 ? (
+                        <div className="items-center p-2 mt-1 bg-slate-50 shadow-lg hover:shadow-xl w-full flex flex-row justify-between rounded-xl">
+                            Aucune demande
+                        </div>
+                    ) : (
+                        <div className="items-center p-2 mt-1 bg-green-500 text-white shadow-lg hover:shadow-xl w-full flex flex-row justify-between rounded-xl hover:cursor-pointer" onClick={handleAcceptFriend}>
+                            {`Vous avez ${myRequests.length} demande(s)`}
+                        </div>
+                    )
+                }
+            </div>
             <div className="flex flex-col w-full h-1/2 overflow-scroll">
                 <h1 className="font-bold underline">Mes amis</h1>
                 <div>

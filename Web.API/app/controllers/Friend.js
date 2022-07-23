@@ -103,5 +103,37 @@ module.exports = {
             res.sendStatus(500);
             console.error(error);
         }
+    },
+    acceptFriendRequest: async (req, res) => {
+        try {
+            const result = await Friend.update({ active: true }, {
+                where: {
+                    user_dest: req.params.destId,
+                    user_src: req.params.srcId,
+                },
+            });
+
+            console.log(result);
+            res.json(result);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
+    },
+    refuseFriendRequest: async (req, res) => {
+        try {
+            const result = await Friend.destroy({
+                where: {
+                    user_dest: req.params.destId,
+                    user_src: req.params.srcId,
+                },
+            });
+
+            console.log(result);
+            res.json(result);
+        } catch (error) {
+            res.sendStatus(500);
+            console.error(error);
+        }
     }
 };

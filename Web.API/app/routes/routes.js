@@ -31,6 +31,8 @@ router.get("/friend/:id", Friend.getMyFriends);
 router.put("/friend/:id", Friend.editFriend);
 router.get("/friend_request/:id", Friend.getFriendsRequest);
 router.get("/request_sent/:id", Friend.checkIfRequestIsSent);
+router.put("/accept_request/:srcId/:destId", Friend.acceptFriendRequest);
+router.delete("/refuse_request/:srcId/:destId", Friend.refuseFriendRequest);
 
 // Logs Routes
 router.get('/logs', Log.getLogs);

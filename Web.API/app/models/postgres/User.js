@@ -28,6 +28,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     }
+    /*preferredLanguage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }*/
   },
   {
     sequelize: connection,

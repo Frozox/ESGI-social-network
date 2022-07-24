@@ -27,11 +27,11 @@ User.init(
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    preferredLanguage: {
+    }
+    /*preferredLanguage: {
       type: DataTypes.STRING,
       allowNull: true,
-    }
+    }*/
   },
   {
     sequelize: connection,

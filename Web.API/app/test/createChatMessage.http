@@ -4,17 +4,17 @@ Accept: application/json
 
 {
   "postgres": {
-    "userDest": 1,
-    "userSrc": 2,
+    "userDest": 6,
+    "userSrc": 7,
     "sendAt": "2018-01-01T00:00:00.000Z",
     "receivedAt": "2018-01-01T00:00:00.000Z",
     "updatedAt": "2018-01-01T00:00:00.000Z",
     "deletedAt": null
   },
   "mongo": {
-    "userDest": 1,
-    "userSrc": 2,
-    "content": "test"
+    "userDest": 6,
+    "userSrc": 7,
+    "content": "Tata"
   }
 }
 

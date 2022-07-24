@@ -1,6 +1,13 @@
-const ChatBoxMessageItem = (props) => {
+import {useStoreContext} from "../../utils/context/StoreContext";
+import {userIS} from "../../utils/context/reducers/user";
+
+
+const ChatBoxMessageItem = (props: any) => {
   const { message } = props;
   const { id, content, created_at, userDest, userSrc, explicit, sentAt, receivedAt, updatedAt, deletedAt } = message;
+
+  const { state: { myUser: { id: userId } } } = useStoreContext();
+
   const messageDest = () => {
     return (
       <li className="flex justify-start" id={"message_"+id}>
@@ -20,11 +27,10 @@ const ChatBoxMessageItem = (props) => {
       </li>
     );
   }
-
-  /*
-  if (message.userDest.id === user.id) {
+  console.log(userDest, userId);
+  if (userSrc === userId) {
     return messageDest();
-  }*/
+  }
   return messageSrc();
 }
 

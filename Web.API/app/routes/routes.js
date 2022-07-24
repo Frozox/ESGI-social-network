@@ -18,6 +18,14 @@ router.put('/users/:id', User.editUser);
 router.delete('/users/:id', User.deleteUser);
 router.post("/login", User.loginUser);
 
+// Chat Routes
+router.get('/chatMessages', Chat.getChatMessages);
+router.get('/chatMessages/last', Chat.getLastChatMessage);
+router.get('/chatMessages/:id', Chat.getChatMessageById);
+router.post('/chatMessages', Chat.createChatMessage);
+router.put('/chatMessages/:id', Chat.editChatMessage);
+router.delete('/chatMessages/:id', Chat.deleteChatMessage);
+
 // Friend Routes
 router.post("/friends", Friend.addFriend);
 router.get("/friend/:id", Friend.getMyFriends);

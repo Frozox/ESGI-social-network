@@ -28,6 +28,7 @@ router.post("/login", User.loginUser);
 
 // Chat Routes
 router.get('/chatMessages', Chat.getChatMessages);
+router.get('/chatMessages/last', Chat.getLastChatMessage);
 router.get('/chatMessages/:id', Chat.getChatMessageById);
 router.post('/chatMessages', Chat.createChatMessage);
 router.put('/chatMessages/:id', Chat.editChatMessage);

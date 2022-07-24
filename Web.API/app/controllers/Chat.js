@@ -9,10 +9,52 @@ module.exports = {
    * @returns {Promise<void>}
    */
   getChatMessages: async (req, res) => {
-    console.log(req)
     try {
-      const result = await Chat.findAll({
-        where: {...req.body.params},
+      const resultPostgres = await Chat.findAll({
+        where: {...req.params},
+        include: [
+          { model: User, as: 'sender' },
+          { model: User, as: 'receiver' }
+        ]
+      });
+      if (resultPostgres.length > 0) {
+        const resultMongo = await messageChat.find({
+          idPostgres: {$in: resultPostgres.map(item => item.id)}
+        });
+
+        const formattedResult = resultPostgres.map(item => {
+          const result = resultMongo.find(itemMongo => itemMongo.idPostgres === item.id);
+          if (result.content) {
+            return {
+              ...item.dataValues,
+              content: result.content,
+            }
+          }
+        });
+        //console.table("FORMATTED RESULT",formattedResult);
+        res.status(200).json(formattedResult);
+      }else{
+        res.status(200).json({
+          message: 'No messages found',
+          data: []
+        });
+      }
+    } catch (error) {
+      res.sendStatus(500);
+      console.error(error);
+    }
+  },
+
+  /**
+   * @description - This method is used to find last message between two users
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  getLastChatMessage: async (req, res) => {
+    try {
+      const result = await Chat.findOne({
+        where: {...req.params},
         include: [
           { model: User, as: 'sender' },
           { model: User, as: 'receiver' }
@@ -35,15 +77,11 @@ module.exports = {
     try {
       const resultPostgres = await Chat.findOne({ where: { id: req.params.id } });
       const resultMongo = await messageChat.findOne({ idPostgres: req.params.id });
-      console.log(resultPostgres);
-      console.log(resultMongo);
       if (resultPostgres && resultMongo) {
-          res.json({
-              postgres: resultPostgres,
-              mongo: resultMongo.content
-          });
+        resultPostgres.content = resultMongo.content;
+        res.json(resultPostgres);
       }else{
-          res.sendStatus(404);
+        res.sendStatus(404);
       }
     } catch (error) {
       res.sendStatus(500);

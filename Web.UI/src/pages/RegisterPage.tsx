@@ -44,7 +44,7 @@ const RegisterPage = () => {
     const { handleSubmit, register, setValue } = useForm<IRegisterForm>();
 
     const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
-        console.log(data);
+        //console.log(data);
         createUser(data).then(() => {
             console.log(data);
             navigate('/login');

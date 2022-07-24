@@ -27,6 +27,10 @@ User.init(
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    preferredLanguage: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
   },
   {

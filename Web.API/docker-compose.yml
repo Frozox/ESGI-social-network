@@ -38,6 +38,21 @@ services:
     depends_on:
       - postgres
 
+  pgadmin:
+    container_name: pgadmin_node
+    image: dpage/pgadmin4:latest
+    environment:
+        - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+        - PGADMIN_DEFAULT_PASSWORD=root
+        - PGADMIN_DEFAULT_DB=${POSTGRES_DB}
+        - PGADMIN_DEFAULT_USER=${POSTGRES_USER}
+        - PGADMIN_DEFAULT_PASS=${POSTGRES_PASSWORD}
+        - PGADMIN_LISTEN_PORT=8080
+    ports:
+      - '8001:8080'
+    depends_on:
+      - postgres
+
 volumes:
   mongo-data: {}
   db-data: {}

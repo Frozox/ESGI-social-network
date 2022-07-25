@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router;
 
 const User = require('../controllers/User');
+const Chat = require('../controllers/Chat');
 const Friend = require('../controllers/Friend');
 const Log = require('../controllers/Log');
 
@@ -17,6 +18,15 @@ router.put('/users/:id', User.editUser);
 router.delete('/users/:id', User.deleteUser);
 router.post("/login", User.loginUser);
 
+// Chat Routes
+router.get('/chatMessages', Chat.getChatMessages);
+router.get('/chatMessages/lastConversations', Chat.getLastConversations);
+router.get('/chatMessages/last', Chat.getLastChatMessage);
+router.get('/chatMessages/:id', Chat.getChatMessageById);
+router.post('/chatMessages', Chat.createChatMessage);
+router.put('/chatMessages/:id', Chat.editChatMessage);
+router.delete('/chatMessages/:id', Chat.deleteChatMessage);
+
 // Friend Routes
 router.post("/friends", Friend.addFriend);
 router.get("/friend/:id", Friend.getMyFriends);
@@ -30,5 +40,11 @@ router.delete("/refuse_request/:srcId/:destId", Friend.refuseFriendRequest);
 router.get('/logs', Log.getLogs);
 router.get('/logs/:id', Log.getLogById);
 router.post('/logs', Log.createLog);
+// Chat Routes
+router.get('/chatMessages', Chat.getChatMessages);
+router.get('/chatMessages/:id', Chat.getChatMessageById);
+router.post('/chatMessages', Chat.createChatMessage);
+router.put('/chatMessages/:id', Chat.editChatMessage);
+router.delete('/chatMessages/:id', Chat.deleteChatMessage);
 
 module.exports = router;

@@ -1,2 +1,6 @@
 .idea
 .vscode
+/Web.API/yarn.lock
+/Web.API/package-lock.json
+/Web.UI/yarn.lock
+/Web.UI/package-lock.json

@@ -1,13 +1,18 @@
 import { ChatIcon, CogIcon, HomeIcon, TemplateIcon, LogoutIcon } from "@heroicons/react/outline";
-import { NavLink, Path } from 'react-router-dom';
+import { NavLink, Path, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
 import { whenPatternMatches } from "../utils/helpers/index";
+import { useStoreContext } from "../utils/context/StoreContext";
+import { Avatar } from "./Avatar";
+import { authLogoutRequest } from "../utils/context/actions/auth";
 interface navBarProps {
   children: React.ReactNode,
   location: Path
 }
 const SideBar = ({ children, location }: navBarProps) => {
   const [display, setDisplay] = useState(true)
+  const { dispatch, state: { myUser: { firstName, lastName } } } = useStoreContext()
+  const navigate = useNavigate()
 
   useEffect(() => {
     whenPatternMatches(location.pathname, [
@@ -29,10 +34,10 @@ const SideBar = ({ children, location }: navBarProps) => {
       </NavLink>
     )
   }
-  const user = {
-    firstName: "John",
-    profilePicture: "https://randomuser.me/api/portraits/lego/1.jpg",
-  }
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token')
+  //   authLogoutRequest(dispatch, navigate)
+  // }
   return (
     <>
       <div className="flex">
@@ -42,11 +47,7 @@ const SideBar = ({ children, location }: navBarProps) => {
               <div className='grow'>
                 <div className='my-2 mb-6' >
                   <div className='flex px-4 py-1 cursor-pointer items-center' >
-                    <img className="object-cover w-10 h-10 rounded-full"
-                      src={user.profilePicture}
-                      alt="username" />
-                    <span className="block ml-2 font-bold text-black-600">{user.firstName}</span>
-
+                    <Avatar initial={firstName + ' ' + lastName} displayName />
                   </div>
                 </div>
                 <div className='my-2 ' >

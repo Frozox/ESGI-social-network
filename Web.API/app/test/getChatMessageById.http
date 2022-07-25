@@ -1,0 +1,4 @@
+GET http://localhost:3000/chatMessages/2
+Accept: application/json
+
+###

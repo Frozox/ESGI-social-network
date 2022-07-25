@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --inspect --trace-warnings index.js",
+    "migrate": "node migrate.js",
     "main": "node index.js"
   },
   "repository": {

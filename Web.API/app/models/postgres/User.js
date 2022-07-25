@@ -28,10 +28,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    /*preferredLanguage: {
-      type: DataTypes.STRING,
+    preferredLanguages: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
-    }*/
+    }
   },
   {
     indexes: [{ fields: ['email'], unique: true}],

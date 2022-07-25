@@ -45,7 +45,7 @@ export const Dashboard = ({ children }: any) => {
                                 }
                             </div>
                             <div className="h-1/6 w-full flex justify-end flex-col">
-                                <div className="p-3 rounded-md shadow-md bg-slate-200 uppercase text-sm hover:bg-slate-300 hover:text-red-500 text-center hover:cursor-pointer" onClick={() => navigate('/Home')}>Retour</div>
+                                <div className="p-3 rounded-md shadow-md bg-slate-200 uppercase text-sm hover:bg-slate-300 hover:text-red-500 text-center hover:cursor-pointer" onClick={() => navigate('/chat')}>Retour</div>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,8 @@ import { checkLogin, registerAction } from "../../../api/auth.axios";
 import { NavigateFunction } from "react-router-dom";
 import { IRegisterForm } from "../../../pages/RegisterPage";
 import { startLoader, endLoader } from "./loader";
+import { sendLogWithSeverity } from "../../../api/apiUtils";
+
 export interface authActionTypes {
     type: string;
     payload?: {
@@ -32,7 +34,7 @@ export const authLoginRequest = async (dispatch: Function, navigate: NavigateFun
         localStorage.setItem("myUser", response.myUser.id);
         navigate("/chat");
     } catch (error) {
-        console.log(error);
+        await sendLogWithSeverity(3, error);
     }
 }
 
@@ -55,13 +57,11 @@ export const authRegisterRequest = async (dispatch: Function, navigate: Navigate
 
     try {
         const response = await registerAction(payload);
-        console.log("response", response);
-
         dispatch({
             type: authTypes.REGISTER_SUCCESS,
         });
         navigate("/login");
     } catch (error) {
-        console.log(error);
+        await sendLogWithSeverity(3, error);
     }
 }

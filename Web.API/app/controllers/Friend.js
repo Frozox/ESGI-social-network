@@ -1,24 +1,21 @@
 const { Friend, User } = require("../models/postgres");
 const { ValidationError, Op } = require("sequelize");
+const Logger = require('../services/Logger');
 
 module.exports = {
     addFriend: async (req, res) => {
         try {
-            console.log(req.body);
             const user = await Friend.create(req.body); // check if request already exists in user_src or user_dest
             res.status(201).json(user);
         } catch (error) {
-            console.log(error);
-            //console.log(res);
+            Logger.err(error);
             if (error instanceof ValidationError) {
-                console.log(error);
                 res.status(422).json({
                     quantity: "must be greather than 0",
                     title: "must not be empty",
                 });
             } else {
                 res.sendStatus(500);
-                console.error(error);
             }
         }
     },
@@ -37,11 +34,10 @@ module.exports = {
                     { model: User, as: "receive" },
                 ],
             });
-            console.log(friend);
             res.json(friend);
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     editFriend: async (req, res) => {
@@ -49,18 +45,16 @@ module.exports = {
             const result = await Friend.update(req.body, {
                 where: { id: req.params.id },
             });
-            console.log(result);
             res.json(result);
         } catch (error) {
+            Logger.err(error);
             if (error instanceof ValidationError) {
-                console.error(error);
                 res.status(422).json({
                     quantity: "must be greather than 0",
                     title: "must not be empty",
                 });
             } else {
                 res.sendStatus(500);
-                console.error(error);
             }
         }
     },
@@ -77,11 +71,10 @@ module.exports = {
                     { model: User, as: "send" },
                 ],
             });
-            console.log(friend);
             res.json(friend);
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     checkIfRequestIsSent: async (req, res) => {
@@ -97,11 +90,10 @@ module.exports = {
                     { model: User, as: "receive" },
                 ],
             });
-            console.log(friend);
             res.json(friend);
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     acceptFriendRequest: async (req, res) => {
@@ -112,12 +104,10 @@ module.exports = {
                     user_src: req.params.srcId,
                 },
             });
-
-            console.log(result);
             res.json(result);
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     refuseFriendRequest: async (req, res) => {
@@ -128,12 +118,10 @@ module.exports = {
                     user_src: req.params.srcId,
                 },
             });
-
-            console.log(result);
             res.json(result);
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     }
 };

@@ -1,6 +1,8 @@
 // create action for users
 import { getMyUser } from '../../../api/users.axios';
 import { types } from '../reducers/user';
+import { sendLogWithSeverity } from "../../../api/apiUtils";
+
 export interface UserActionTypes {
     type: string;
     payload?: any;
@@ -22,7 +24,7 @@ export const getMyUserActions = async (dispatch: Function) => {
 
 
     } catch (error) {
-        console.log(error);
+        sendLogWithSeverity(3, error);
     }
 }
 

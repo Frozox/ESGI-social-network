@@ -7,7 +7,7 @@ interface TableProps {
     pageSize?: number;
     rowsPerPageOptions?: number[];
     checkbox?: boolean;
-    onRowClick?: (row: any) => void;
+    onRowClick: (row: any) => void;
     disableSelectionOnClick?: boolean;
     headerCustom?: boolean
 }
@@ -20,7 +20,7 @@ export const Table = ({ data, pageSize, rowsPerPageOptions, checkbox, onRowClick
             pageSize={pageSize}
             rowsPerPageOptions={rowsPerPageOptions}
             checkboxSelection={checkbox}
-            onRowClick={onRowClick}
+            onRowClick={(e) => onRowClick(e.row)}
             disableSelectionOnClick={disableSelectionOnClick}
             style={headerCustom ? { height: '94%' } : {}}
         />

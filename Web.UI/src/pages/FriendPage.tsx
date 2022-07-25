@@ -16,12 +16,10 @@ const FriendPage = () => {
     React.useEffect(() => {
         if (needRefreshUsers) { getAllUserExceptUserAction(dispatch, data) }
     }, [needRefreshUsers]);
-    console.log(usersList);
 
     React.useEffect(() => {
         if (needRefreshFriends) { getAllFriendsAction(dispatch, data) }
     }, [needRefreshFriends]);
-    console.log(friendsList);
 
     const handleAddFriend = (userId: number) => {
         const friend = {
@@ -31,7 +29,6 @@ const FriendPage = () => {
             confirm_at: null,
             active: false
         }
-        console.log(friend);
         createNewFriendRequestAction(dispatch, friend);
         setButtonText('Request Sent');
         setBtnColor('bg-stone-500')
@@ -43,8 +40,6 @@ const FriendPage = () => {
             confirmed_at: new Date().toISOString(),
             active: true
         }
-        console.log(friendId);
-        console.log(friend);
         updateFriendRequestAction(dispatch, friend, friendId);
         setDisable(true)
     }

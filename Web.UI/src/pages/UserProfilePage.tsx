@@ -42,9 +42,7 @@ const UserProfilePage = () => {
 
                     <div className="shadow-xl mb-1 p-3 rounded-md w-full bg-white">
                         <div className='flex px-4 py-1 items-center' >
-                        <Avatar initial={firstName + ' ' + lastName} />
-
-                            <span className="block ml-2 font-bold text-black-600">{firstName} {lastName}</span>
+                            <Avatar initial={firstName + ' ' + lastName} />
                         </div>
                     </div>
                     <div className="w-full">

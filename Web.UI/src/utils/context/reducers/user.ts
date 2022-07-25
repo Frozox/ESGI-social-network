@@ -4,7 +4,6 @@ import { UserActionTypes } from "../actions/user";
 
 export const userIS = {
     id: 0,
-    name: '',
     firstName: '',
     lastName: '',
     email: '',

@@ -1,5 +1,6 @@
 const { Chat, User} = require('../models/postgres');
 const { messageChat } = require('../models/mongo');
+const {ValidationError, Op} = require("sequelize");
 
 module.exports = {
   /**
@@ -10,8 +11,15 @@ module.exports = {
    */
   getChatMessages: async (req, res) => {
     try {
+      const { userSrc, userDest } = req.query;
       const resultPostgres = await Chat.findAll({
-        where: {...req.params},
+        where: {
+          [Op.or]: [
+            {userDest: userSrc, userSrc: userDest},
+            {userDest: userDest, userSrc: userSrc}
+          ]
+        },
+        distinct: true,
         include: [
           { model: User, as: 'sender' },
           { model: User, as: 'receiver' }
@@ -101,11 +109,13 @@ module.exports = {
       if (resultPostgres && resultPostgres.id) {
         req.body.mongo.idPostgres = resultPostgres.id;
         const resultMongo = await messageChat.create(req.body.mongo);
-        const result = {
-          postgres: resultPostgres,
-          mongo: resultMongo.content
+        if (resultMongo && resultMongo.id) {
+          resultPostgres.content = resultMongo.content;
+          res.json(resultPostgres);
+        }else{
+          res.sendStatus(500);
+          console.log("Erreur de création dans Mongo");
         }
-        res.json(result);
       }
     } catch (error) {
       res.sendStatus(500);
@@ -123,10 +133,8 @@ module.exports = {
     try {
       const updateMongo = await messageChat.updateOne(req.body, {where: {idPostgres: req.params.id}}, {returning: true});
       const updatePostgres = await Chat.updateOne({updatedAt: new Date()}, {where: {id: req.params.id}}, {returning: true});
-      res.json({
-        postgres: updatePostgres,
-        mongo: updateMongo.content,
-      });
+      updatePostgres.content = updateMongo.dataValues.content;
+      res.json(updatePostgres);
     } catch (error) {
       res.sendStatus(500);
       console.error(error);

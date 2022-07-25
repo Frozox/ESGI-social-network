@@ -67,7 +67,7 @@ const SideBar = ({ children, location }: navBarProps) => {
                   </div>
                   <ul className="relative">
                     <li className="relative">
-                      <NavItem link="#!" icon={<CogIcon />} name="Settings" />
+                      <NavItem link="/settings" icon={<CogIcon />} name="Settings" />
                     </li>
                   </ul>
                 </div>

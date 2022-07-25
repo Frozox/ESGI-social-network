@@ -2,8 +2,8 @@ import { getAxiosInstance } from "./apiUtils";
 
 const instance = getAxiosInstance();
 
-export const getMyUser = async () => {
-    const response = await instance.get(`/me`);
+export const getMyUser = async (userId: number) => {
+    const response = await instance.get(`/users/${userId}`);
     return response.data;
 }
 

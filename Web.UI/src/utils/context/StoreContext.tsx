@@ -3,7 +3,8 @@ import { UsersIS, usersReducer } from "./reducers/admin";
 import { authIS, authReducer } from "./reducers/auth";
 import { FriendsIS, friendsReducer } from "./reducers/friends";
 import loaderReducer, { loaderIS } from "./reducers/loading";
-import {myUsersIS, userReducer} from "./reducers/users";
+import { myUserReducer, userIS } from "./reducers/user";
+import { myUsersIS, userReducer } from "./reducers/users";
 
 const initialState = {
     loader: loaderIS,
@@ -11,6 +12,7 @@ const initialState = {
     users: UsersIS,
     friends: FriendsIS,
     auth: authIS,
+    myUser: userIS,
 }
 
 const StoreContext = React.createContext({
@@ -33,6 +35,7 @@ const reducer = combinedReducer({
     users: usersReducer,
     friends: friendsReducer,
     auth: authReducer,
+    myUser: myUserReducer,
 })
 
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {

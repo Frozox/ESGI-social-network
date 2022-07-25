@@ -10,7 +10,7 @@ interface IProps {
     value?: string;
 }
 
-const InputsAreaRegister = ({ label, formControlName, key, type,value }: IProps) => {
+const InputsArea = ({ label, formControlName, key, type,value }: IProps) => {
     return (
         <div className="w-1/2 px-3 mb-6 md:mb-0" key={key}>
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-firstName">
@@ -65,7 +65,7 @@ const Form = ({ inputs, labelTitle, onSubmitFunction}: IForm) => {
                             )
                         }else {
                             return (
-                                <InputsAreaRegister label={input.label} formControlName={register(input.formControlName)} key={index} type={input.type} value={input.value} />
+                                <InputsArea label={input.label} formControlName={register(input.formControlName)} key={index} type={input.type} value={input.value} />
                             )
                         }
                     })}

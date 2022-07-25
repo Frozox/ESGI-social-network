@@ -1,6 +1,18 @@
 const { Chat, User} = require('../models/postgres');
 const { messageChat } = require('../models/mongo');
-const {ValidationError, Op} = require("sequelize");
+const {ValidationError, Op, Sequelize} = require("sequelize");
+
+const formatResults = (resultPostgres, resultMongo) => {
+  return resultPostgres.map(item => {
+    const result = resultMongo.find(itemMongo => itemMongo.idPostgres === item.id);
+    if(result && result.content) {
+      return {
+        ...item.dataValues,
+        content: result.content,
+      }
+    }
+  });
+}
 
 module.exports = {
   /**
@@ -19,6 +31,9 @@ module.exports = {
             {userDest: userDest, userSrc: userSrc}
           ]
         },
+        order: [
+          ['sendAt', 'ASC']
+        ],
         distinct: true,
         include: [
           { model: User, as: 'sender' },
@@ -29,17 +44,7 @@ module.exports = {
         const resultMongo = await messageChat.find({
           idPostgres: {$in: resultPostgres.map(item => item.id)}
         });
-
-        const formattedResult = resultPostgres.map(item => {
-          const result = resultMongo.find(itemMongo => itemMongo.idPostgres === item.id);
-          if (result.content) {
-            return {
-              ...item.dataValues,
-              content: result.content,
-            }
-          }
-        });
-        //console.table("FORMATTED RESULT",formattedResult);
+        const formattedResult = formatResults(resultPostgres, resultMongo);
         res.status(200).json(formattedResult);
       }else{
         res.status(200).json({
@@ -53,6 +58,50 @@ module.exports = {
     }
   },
 
+
+  getLastConversations: async (req, res) => {
+    try {
+      const { userId } = req.query;
+      const resultPostgres = await Chat.findAll({
+        attributes: [
+            Sequelize.literal('DISTINCT ON ("userDest", "userSrc") *'),
+            'id', 'userSrc', 'userDest', 'sendAt', 'receivedAt', 'updatedAt', 'deletedAt'
+        ],
+        where: {
+          [Op.or]: [
+            {userDest: userId},
+            {userSrc: userId}
+          ],
+        },
+        order: [
+          'userSrc',
+          'userDest',
+          ['sendAt', 'DESC']
+        ],
+        distinct: ['userSrc', 'userDest'],
+        include: [
+          { model: User, as: 'sender' },
+          { model: User, as: 'receiver' }
+        ]
+      });
+      if (resultPostgres.length > 0) {
+        const resultMongo = await messageChat.find({
+          idPostgres: {$in: resultPostgres.map(item => item.id)}
+        });
+        const formattedResult = formatResults(resultPostgres, resultMongo);
+        res.status(200).json(formattedResult);
+      }else{
+        res.status(200).json({
+          message: 'No messages found',
+          data: []
+        });
+      }
+    }catch (error) {
+      res.sendStatus(500);
+      console.error(error);
+    }
+  },
+
   /**
    * @description - This method is used to find last message between two users
    * @param req
@@ -61,8 +110,17 @@ module.exports = {
    */
   getLastChatMessage: async (req, res) => {
     try {
+      const { userSrc, userDest } = req.query;
       const result = await Chat.findOne({
-        where: {...req.params},
+        where: {
+          [Op.or]: [
+            {userDest: userSrc, userSrc: userDest},
+            {userDest: userDest, userSrc: userSrc}
+          ]
+        },
+        order: [
+            ['sendAt', 'ASC']
+        ],
         include: [
           { model: User, as: 'sender' },
           { model: User, as: 'receiver' }

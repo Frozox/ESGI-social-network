@@ -47,8 +47,8 @@ Chat.init(
     },
     updatedAt: {
       type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
+      allowNull: true,
+      defaultValue: null,
       validate: {
         isDate: true,
       }

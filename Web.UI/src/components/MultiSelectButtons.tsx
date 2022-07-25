@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
-const MultiSelectButtons = ({options, label, setValue}: any) => {
-    const [selectedItems, setSelected] = useState<string[]>([]);
+const MultiSelectButtons = ({options, label, setValue, key, optionsSelected}: any) => {
+    const [selectedItems, setSelected] = useState<string[]>(optionsSelected);
 
     const addTag = (item: string) => {
         if (!selectedItems.includes(item)) {

@@ -22,6 +22,11 @@ export const createUser = async (payload: any) => {
     return response.data;
 }
 
+export const editUser = async (id: number, payload: any) => {
+    const response = await instance.put(`/users/${id}`, payload);
+    return response.data;
+}
+
 export const loginUser = async (payload: any) => {
     const response = await instance.post(`/login`, payload);
     return response.data;

@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ChatPage from "../pages/ChatPage";
+import UserProfilePage from "../pages/UserProfilePage";
 import AdminPage from "../pages/Admin/AdminPage";
 import AdminLogPage from "../pages/Admin/AdminLogPage";
 import AdminAnalyticsPage from "../pages/Admin/AdminAnalyticsPage";
@@ -27,6 +28,7 @@ const MyRoutes = () => {
             <Route path="/admin/analytics" element={<OnlyWhen condition={true} otherwise="/chat"><AdminAnalyticsPage /></OnlyWhen>} />
             <Route path="/chat/:id" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
             <Route path="/chat" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
+            <Route path="/settings" element={<OnlyWhen condition={true} otherwise="/login"><UserProfilePage /></OnlyWhen>} />
             <Route path="/" element={<OnlyWhen condition={true} otherwise="/login"><LoginPage /></OnlyWhen>} />
             <Route path="/404" element={<NotFoundPage />} />
         </Routes>

@@ -8,44 +8,59 @@ import {
 } from "@heroicons/react/outline";
 import React from "react";
 import {useStoreContext} from "../../utils/context/StoreContext";
-import {getMessages} from "../../api/messages";
+import {getMessages, sendMessage} from "../../api/messages";
 import {getUserById} from "../../api/users.axios";
+import {getMyUserActions} from "../../utils/context/actions/user";
+import {PaperAirplaneIcon} from "@heroicons/react/solid";
 
-const ChatBoxWriteBar = ({ svg, type }: { svg: JSX.Element, type?: string }) => {
+const ChatBoxWriteBar = ({ svg, action }: { svg: JSX.Element, action: Function }) => {
   return (
-    <button type={type ? 'button' : 'submit'}>
+    <div onClick={() => action()}>
       {svg}
-    </button>
+    </div>
   )
 }
 
 const ChatBox = ({userDestId}: { userDestId: number }) => {
-
   const [messages, setMessages] = React.useState<any[]>([]);
-  const {state: {myUser: {id}}} = useStoreContext();
-  React.useEffect(() => {
-    getMessages(id, 2).then(res => {
-      console.log(res);
-      setMessages(res);
-    });
-  },[id]);
-
+  const [myMessage, setMyMessage] = React.useState("");
   const [userDest, setUserDest] = React.useState({
     id: userDestId,
-    firstName: '',
+    firstName: 'Utilisateur Inconnu',
     lastName: '',
   });
+  const sendMessageEvent = (message: string) => {
+    sendMessage(message, userDestId, Number(id)).then(res => {
+      setMessages([...messages, res]);
+    });
+    setMyMessage("");
+  }
+  React.useEffect(() => {
+    getMessages(Number(id), userDestId).then(res => {
+      if (!res.data) {
+        setMessages(res);
+      }
+    });
+  },[userDestId, messages.length]);
+
   React.useEffect(() => {
     getUserById(userDestId).then(res => {
-      setUserDest({
-        id: res.id,
-        firstName: res.firstName,
-        lastName: res.lastName,
-      });
+      console.log(res);
+      if (res.id && res.id > 0 && res.firstName && res.lastName) {
+        setUserDest({
+          id: res.id,
+          firstName: res.firstName,
+          lastName: res.lastName,
+        });
+      }
     });
   },[userDestId]);
 
-  console.log(userDest);
+  const id = localStorage.getItem("myUser");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMyMessage(e.target.value);
+  }
 
   return (
     <div className="w-full">
@@ -61,13 +76,10 @@ const ChatBox = ({userDestId}: { userDestId: number }) => {
       </div>
 
       <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
-        <ChatBoxWriteBar svg={<EmojiHappyIcon className="h-5 w-5 text-gray-500" />} />
-        <ChatBoxWriteBar svg={<LinkIcon className="h-5 w-5 text-gray-500" />} />
         <input type="text" placeholder="Message"
           className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-          name="message" required />
-        <ChatBoxWriteBar svg={<MicrophoneIcon className="h-5 w-5 text-gray-500" />} />
-        <ChatBoxWriteBar svg={<AnnotationIcon className="h-5 w-5 text-gray-500" />} type="submit" />
+          name="message" required value={myMessage} onChange={handleChange} />
+        <ChatBoxWriteBar svg={<PaperAirplaneIcon className="h-5 w-5 text-gray-500" />} action={() => sendMessageEvent(myMessage)}/>
       </div>
     </div>
   );

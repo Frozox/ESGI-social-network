@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react"
 import { Link, useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { createUser } from '../api/users.axios'
 import MultiSelectButtons from "../components/MultiSelectButtons";
 import { authRegisterRequest } from "../utils/context/actions/auth";
 import { useStoreContext } from "../utils/context/StoreContext";
+import {listOfLanguages} from "../utils/helpers/listOfLanguages";
 
 export interface IRegisterForm {
     firstName: string;
@@ -62,7 +62,6 @@ const RegisterPage = () => {
         { label: 'Email', formControlName: 'email' },
         { label: 'Mot de passe', formControlName: 'password', type: 'password' },
     ]
-    const favoriteLanguagesOptions = ['javascript', 'C++', 'cloud computing', 'reverse engineering', 'PHP', 'java', 'python'];
 
     return (
         <div className="flex flex-col items-center justify-center w-full h-screen bg-[url('./assets/images/bg.jpeg')] bg-cover">
@@ -75,7 +74,7 @@ const RegisterPage = () => {
                         )
                     })}
                 </div>
-                <MultiSelectButtons options={favoriteLanguagesOptions} optionsSelected={[]} label="Langages préférés" setValue={setValue}/>
+                <MultiSelectButtons options={listOfLanguages} optionsSelected={[]} label="Langages préférés" setValue={setValue}/>
                 <div className="flex items-center justify-between">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                         Inscription

@@ -12,6 +12,7 @@ export const myUsersIS = {
     validatedAt: '',
     token: '',
     friendList: [],
+    preferedLanguages: [],
 }
 
 export const userType = {

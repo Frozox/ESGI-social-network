@@ -7,6 +7,7 @@ export const userIS = {
     firstName: '',
     lastName: '',
     email: '',
+    preferedLanguages: Array<string>(),
     roles: Array<string>(),
     token: '',
     error: null,

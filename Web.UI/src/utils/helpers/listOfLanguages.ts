@@ -1,0 +1,1 @@
+export const listOfLanguages = ['Javascript', 'C', 'C++', 'Cloud computing', 'Reverse engineering', 'PHP', 'Java', 'Python', 'Lua', 'React', 'Security', 'AI', 'Blockchain', 'BigData', 'IOT', 'Systeme'];

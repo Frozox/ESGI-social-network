@@ -20,7 +20,7 @@ const MultiSelectButtons = ({options, label, setValue, key, optionsSelected}: an
             <div className="flex flex-wrap w-full justify-start gap-5 mt-5 mb-5">
                 {options.map((optionValue: string) => {
                     return (
-                        <span onClick={() => addTag(optionValue)}  {...(setValue('preferedLanguage',selectedItems))} className={`${selectedItems.includes(optionValue) ? 'bg-gray-100' : 'bg-white'} hover:border-gray-600 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full shadow cursor-pointer`}  >{optionValue}</span>
+                        <span onClick={() => addTag(optionValue)}  {...(setValue('preferedLanguages',selectedItems))} className={`${selectedItems.includes(optionValue) ? 'bg-gray-100' : 'bg-white'} hover:border-gray-600 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full shadow cursor-pointer`}  >{optionValue}</span>
                     )
                 })}
             </div>

@@ -10,7 +10,7 @@ const ChatBoxMessageList = ({ messages }: ChatBoxMessageListProps) => {
       {messages.map((message, index) => {
         return (
           <ChatBoxMessageItem
-            key={message.id}
+            key={index}
             message={message}
           />
         )

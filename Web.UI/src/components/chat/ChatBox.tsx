@@ -1,11 +1,5 @@
 import ChatBoxMessageList from "./ChatBoxMessageList";
 import ChatBoxHeader from "./ChatBoxHeader";
-import {
-  AnnotationIcon,
-  EmojiHappyIcon,
-  LinkIcon,
-  MicrophoneIcon,
-} from "@heroicons/react/outline";
 import React from "react";
 import {useStoreContext} from "../../utils/context/StoreContext";
 import {getMessages, sendMessage} from "../../api/messages";
@@ -35,6 +29,7 @@ const ChatBox = ({userDestId}: { userDestId: number }) => {
     });
     setMyMessage("");
   }
+
   React.useEffect(() => {
     getMessages(Number(id), userDestId).then(res => {
       if (!res.data) {
@@ -45,7 +40,6 @@ const ChatBox = ({userDestId}: { userDestId: number }) => {
 
   React.useEffect(() => {
     getUserById(userDestId).then(res => {
-      console.log(res);
       if (res.id && res.id > 0 && res.firstName && res.lastName) {
         setUserDest({
           id: res.id,

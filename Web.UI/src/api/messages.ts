@@ -15,7 +15,7 @@ export const sendMessage = async (message: string, userDest: number, userSrc: nu
             explicit: false,
             sendAt: new Date(),
             receivedAt: null,
-            updatedAt: new Date(),
+            updatedAt: null,
             deletedAt: null,
         },
         mongo: {
@@ -24,5 +24,28 @@ export const sendMessage = async (message: string, userDest: number, userSrc: nu
             userSrc: userSrc,
         }
     });
+    return response.data;
+}
+
+export const updateMessage = async (message: string, messageId: number) => {
+    const response = await instance.put(`/chatMessages/${messageId}`, {
+        postgres: {
+            id: messageId,
+            updatedAt: new Date(),
+        },
+        mongo: {
+            content: message,
+        }
+    });
+    return response.data;
+}
+
+export const deleteMessage = async (messageId: number) => {
+    const response = await instance.delete(`/chatMessages/${messageId}`);
+    return response.data;
+}
+
+export const getLastConversations = async (userId: number) => {
+    const response = await instance.get(`/chatMessages/lastConversations?userId=${userId}`);
     return response.data;
 }

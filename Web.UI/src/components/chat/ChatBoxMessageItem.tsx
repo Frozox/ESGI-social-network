@@ -1,6 +1,6 @@
-import {useStoreContext} from "../../utils/context/StoreContext";
-import {useModalContext} from "../modal";
-import {updateMessage} from "../../api/messages";
+import { useStoreContext } from "../../utils/context/StoreContext";
+import { useModalContext } from "../modal";
+import { updateMessage } from "../../api/messages.axios";
 import React from "react";
 import moment from "moment";
 
@@ -9,7 +9,7 @@ const ChatBoxMessageItem = (props: any) => {
   const { message } = props;
   const { id, content, created_at, userDest, userSrc, explicit, sendAt, receivedAt, updatedAt, deletedAt } = message;
   const { state: { myUser: { id: userId } } } = useStoreContext();
-  const {yesActionModal ,yesNoModal, openModal, updateModalContent, updateModalTitle} = useModalContext();
+  const { yesActionModal, yesNoModal, openModal, updateModalContent, updateModalTitle } = useModalContext();
   const [modifyMessage, setModifyMessage] = React.useState(message.content);
 
   const handleEditMessage = (messageId: number) => {
@@ -37,10 +37,10 @@ const ChatBoxMessageItem = (props: any) => {
     const className = isSentByMe ? "relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow hover:bg-gray-300 cursor-pointer" : "relative max-w-xl px-4 py-2 text-gray-700 rounded shadow";
     const start = isSentByMe ? "flex justify-end" : "flex justify-start";
     return (
-      <li className={start} id={"message_"+id}>
-        <div className={className} onClick={() => {isSentByMe ? handleEditMessage(id) : undefined}}>
+      <li className={start} id={"message_" + id}>
+        <div className={className} onClick={() => { isSentByMe ? handleEditMessage(id) : undefined }}>
           <span className="block">{message.content}</span>
-          <span className="font-thin text-sm mr-2">Modifié - {moment(sendAt).format("DD/MM/YYYY")}</span>
+          {updatedAt && <span className="font-thin float-right text-xs text-gray-500">Modifié - {moment(updatedAt).format("HH:mm")}</span>}
         </div>
       </li>
     );
@@ -48,7 +48,7 @@ const ChatBoxMessageItem = (props: any) => {
 
   return (
     <>
-        {messageRender(userSrc === userId)}
+      {messageRender(userSrc === userId)}
     </>
   );
 }

@@ -1,11 +1,11 @@
 import ChatBoxMessageList from "./ChatBoxMessageList";
 import ChatBoxHeader from "./ChatBoxHeader";
 import React from "react";
-import {useStoreContext} from "../../utils/context/StoreContext";
-import {getMessages, sendMessage} from "../../api/messages";
-import {getUserById} from "../../api/users.axios";
-import {getMyUserActions} from "../../utils/context/actions/user";
-import {PaperAirplaneIcon} from "@heroicons/react/solid";
+import { useStoreContext } from "../../utils/context/StoreContext";
+import { getMessages, sendMessage } from "../../api/messages.axios";
+import { getUserById } from "../../api/users.axios";
+import { getMyUserActions } from "../../utils/context/actions/user";
+import { PaperAirplaneIcon } from "@heroicons/react/solid";
 
 const ChatBoxWriteBar = ({ svg, action }: { svg: JSX.Element, action: Function }) => {
   return (
@@ -15,7 +15,7 @@ const ChatBoxWriteBar = ({ svg, action }: { svg: JSX.Element, action: Function }
   )
 }
 
-const ChatBox = ({userDestId}: { userDestId: number }) => {
+const ChatBox = ({ userDestId }: { userDestId: number }) => {
   const [messages, setMessages] = React.useState<any[]>([]);
   const [myMessage, setMyMessage] = React.useState("");
   const [userDest, setUserDest] = React.useState({
@@ -36,7 +36,7 @@ const ChatBox = ({userDestId}: { userDestId: number }) => {
         setMessages(res);
       }
     });
-  },[userDestId, messages.length]);
+  }, [userDestId, messages.length]);
 
   React.useEffect(() => {
     getUserById(userDestId).then(res => {
@@ -48,7 +48,7 @@ const ChatBox = ({userDestId}: { userDestId: number }) => {
         });
       }
     });
-  },[userDestId]);
+  }, [userDestId]);
 
   const id = localStorage.getItem("myUser");
 
@@ -73,7 +73,7 @@ const ChatBox = ({userDestId}: { userDestId: number }) => {
         <input type="text" placeholder="Message"
           className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
           name="message" required value={myMessage} onChange={handleChange} />
-        <ChatBoxWriteBar svg={<PaperAirplaneIcon className="h-5 w-5 text-gray-500" />} action={() => sendMessageEvent(myMessage)}/>
+        <ChatBoxWriteBar svg={<PaperAirplaneIcon className="h-5 w-5 text-gray-500" />} action={() => sendMessageEvent(myMessage)} />
       </div>
     </div>
   );

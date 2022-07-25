@@ -2,9 +2,9 @@ const express = require('express');
 const router = new express.Router;
 
 const User = require('../controllers/User');
+const Chat = require('../controllers/Chat');
 const Friend = require('../controllers/Friend');
 const Log = require('../controllers/Log');
-const Chat = require('../controllers/Chat');
 
 router.get('/', (_, res) => res.send("hey API works !"));
 

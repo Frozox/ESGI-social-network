@@ -15,3 +15,21 @@ export const getUserNameById = (id: number, members: Array<{ id: number, firstna
 
     return '';
 }
+
+export const webAnalytics = ({ dataToSend }: any) => {
+    if (!navigator.sendBeacon) return true
+    // URL to send the data to, e.g.
+    let url = 'http://localhost:3000/chat';
+
+    let startTime = performance.now()
+
+    // Data to send
+    let data = new FormData();
+    data.append('start', startTime.toString());
+    data.append('end', performance.now().toString());
+    data.append('data', dataToSend);
+    data.append('url', document.URL);
+
+    // Let's go!
+    navigator.sendBeacon(url, data);
+}

@@ -4,6 +4,7 @@ const router = new express.Router;
 const User = require('../controllers/User');
 const Friend = require('../controllers/Friend');
 const Log = require('../controllers/Log');
+const WebAnalytics = require('../controllers/WebAnalytics');
 
 router.get('/', (_, res) => res.send("hey API works !"));
 
@@ -30,5 +31,9 @@ router.delete("/refuse_request/:srcId/:destId", Friend.refuseFriendRequest);
 router.get('/logs', Log.getLogs);
 router.get('/logs/:id', Log.getLogById);
 router.post('/logs', Log.createLog);
+
+// Analytics Routes
+router.get('/analytics', WebAnalytics.getTimeSpentOnPage);
+router.get('/analytics/bouton_send', WebAnalytics.getNumberOfTimeSendMessageBtn);
 
 module.exports = router;

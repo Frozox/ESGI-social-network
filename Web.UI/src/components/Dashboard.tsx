@@ -1,4 +1,4 @@
-import { AcademicCapIcon, ArchiveIcon, CameraIcon, ChartBarIcon } from "@heroicons/react/outline"
+import { AcademicCapIcon, ArchiveIcon, CameraIcon, ChartBarIcon, ExclamationIcon } from "@heroicons/react/outline"
 import React, { Fragment } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { useStoreContext } from "../utils/context/StoreContext"
@@ -41,6 +41,7 @@ export const Dashboard = ({ children }: any) => {
                                     <>
                                         <DashboardItem name='Logs' icon={<ArchiveIcon className="w-5 h-5" />} onpress='/admin/logs' />
                                         <DashboardItem name='Analytics' icon={<ChartBarIcon className="w-5 h-5" />} onpress='/admin/analytics' />
+                                        <DashboardItem name='Avertissements' icon={<ExclamationIcon className="w-5 h-5" />} onpress='/admin/avertissements' />
                                     </>
                                 }
                             </div>

@@ -1,4 +1,5 @@
 import { getAllUsers, getAllUsersExceptMe } from "../../../api/users.axios";
+import { sendLogWithSeverity } from "../../../api/apiUtils";
 
 export interface UsersActionTypes {
     type: string;
@@ -16,7 +17,7 @@ export const getAllUserAction = async (dispatch: Function) => {
             payload: response,
         });
     }catch(error){
-        console.log(error);
+        await sendLogWithSeverity(3, error);
     }
 }
 
@@ -31,6 +32,6 @@ export const getAllUserExceptUserAction = async (dispatch: Function, id: number)
             payload: response,
         });
     }catch(error){
-        console.log(error);
+        await sendLogWithSeverity(3, error);
     }
 }

@@ -5,10 +5,11 @@ const Logger = require("../services/Logger");
 module.exports = {
   getLogs: async (req, res) => {
     try {
-      const { page = 1, perPage = 10, ...criteria } = req.query;
-      const result = await Log.find(criteria)
+      const { page = 1, perPage = 10, order = -1 } = req.query;
+      const result = await Log.find({})
         .limit(perPage)
-        .skip((page - 1) * perPage);
+        .skip((page - 1) * perPage)
+        .sort([['createdAt', order]]);
       res.json(result);
     } catch (error) {
       Logger.err(error);

@@ -1,19 +1,11 @@
 const express = require('express');
 const router = new express.Router;
 
-const HttpCode = require('../controllers/HttpCode');
 const User = require('../controllers/User');
 const Friend = require('../controllers/Friend');
 const Log = require('../controllers/Log');
 
 router.get('/', (_, res) => res.send("hey API works !"));
-
-// HttpCode Routes
-router.get('/httpCodes', HttpCode.getHttpCodes);
-router.get('/httpCodes/:id', HttpCode.getHttpCodeById);
-router.post('/httpCodes', HttpCode.createHttpCode);
-router.put('/httpCodes/:id', HttpCode.editHttpCode);
-router.delete('/httpCodes/:id', HttpCode.deleteHttpCode);
 
 // User Routes
 router.get('/users', User.getUsers);

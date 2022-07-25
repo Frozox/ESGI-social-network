@@ -2,7 +2,7 @@ const { User, Friend } = require("../models/postgres");
 const { ValidationError, Op, where } = require("sequelize");
 const { createToken } = require("../lib/jwt");
 const bcryptjs = require("bcryptjs");
-//const Friend = require("./Friend");
+const Logger = require('../services/Logger');
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -10,8 +10,8 @@ module.exports = {
             const users = await User.findAll({ where: req.query });
             res.json(users);
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     getMyUser: async (req, res) => {
@@ -19,7 +19,7 @@ module.exports = {
             const user = await User.findOne({ where: { id: req.user.id } });
             res.json(user);
         } catch (error) {
-            console.error(error);
+            Logger.err(error);
         }
     },
     getUserById: async (req, res) => {
@@ -31,8 +31,8 @@ module.exports = {
                 res.json(user);
             }
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     getUsersExceptMe: async (req, res) => {
@@ -51,8 +51,8 @@ module.exports = {
                 res.json(user);
             }
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     getUserByMail: async (req, res) => {
@@ -64,8 +64,8 @@ module.exports = {
                 res.json(user);
             }
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     createUser: async (req, res) => {
@@ -73,8 +73,7 @@ module.exports = {
             const user = await User.create(req.body);
             res.status(201).json(user);
         } catch (error) {
-            console.log(error);
-            //console.log(res);
+            Logger.err(error);
             if (error instanceof ValidationError) {
                 res.status(422).json({
                     quantity: "must be greather than 0",
@@ -82,7 +81,6 @@ module.exports = {
                 });
             } else {
                 res.sendStatus(500);
-                console.error(error);
             }
         }
     },
@@ -100,15 +98,14 @@ module.exports = {
                 res.json(lines[0]);
             }
         } catch (error) {
+            Logger.err(error);
             if (error instanceof ValidationError) {
-                console.error(error);
                 res.status(422).json({
                     quantity: "must be greather than 0",
                     title: "must not be empty",
                 });
             } else {
                 res.sendStatus(500);
-                console.error(error);
             }
         }
     },
@@ -121,8 +118,8 @@ module.exports = {
                 res.sendStatus(204);
             }
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
     loginUser: async (req, res) => {
@@ -144,8 +141,8 @@ module.exports = {
                 });
             }
         } catch (error) {
+            Logger.err(error);
             res.sendStatus(500);
-            console.error(error);
         }
     },
 }

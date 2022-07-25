@@ -8,7 +8,6 @@ import {
 } from "@heroicons/react/outline";
 
 const ChatBoxWriteBar = ({ svg, type }: { svg: JSX.Element, type?: string }) => {
-  console.log(type);
   return (
     <button type={type ? 'button' : 'submit'}>
       {svg}

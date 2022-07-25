@@ -2,8 +2,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ChatPage from "../pages/ChatPage";
-import FriendPage from "../pages/FriendPage";
 import UserProfilePage from "../pages/UserProfilePage";
+import AdminPage from "../pages/Admin/AdminPage";
+import AdminLogPage from "../pages/Admin/AdminLogPage";
+import AdminAnalyticsPage from "../pages/Admin/AdminAnalyticsPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 interface RequireAuthenticationProps {
     otherwise: string;
@@ -18,11 +21,16 @@ const OnlyWhen = ({ condition, otherwise, children }: RequireAuthenticationProps
 const MyRoutes = () => {
     return (
         <Routes>
-            <Route path="/login" element={<OnlyWhen condition={true} otherwise="/Home"><LoginPage /></OnlyWhen>} />
+            <Route path="/login" element={<OnlyWhen condition={true} otherwise="/chat"><LoginPage /></OnlyWhen>} />
             <Route path="/register" element={<OnlyWhen condition={true} otherwise="/login"><RegisterPage /></OnlyWhen>} />
+            <Route path="/admin" element={<OnlyWhen condition={true} otherwise="/chat"><AdminPage /></OnlyWhen>} />
+            <Route path="/admin/logs" element={<OnlyWhen condition={true} otherwise="/chat"><AdminLogPage /></OnlyWhen>} />
+            <Route path="/admin/analytics" element={<OnlyWhen condition={true} otherwise="/chat"><AdminAnalyticsPage /></OnlyWhen>} />
+            <Route path="/chat/:id" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
             <Route path="/chat" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
-            <Route path="/friend" element={<OnlyWhen condition={true} otherwise="/Friend"><FriendPage /></OnlyWhen>} />
             <Route path="/settings" element={<OnlyWhen condition={true} otherwise="/login"><UserProfilePage /></OnlyWhen>} />
+            <Route path="/" element={<OnlyWhen condition={true} otherwise="/login"><LoginPage /></OnlyWhen>} />
+            <Route path="/404" element={<NotFoundPage />} />
         </Routes>
     )
 }

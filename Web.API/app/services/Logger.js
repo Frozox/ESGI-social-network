@@ -25,13 +25,13 @@ const Logger = new SyslogPro.RFC5424({
 
 const logMessage = async (message, severity, isServer = true) => {
 
-  if(message instanceof Error)
+  if (message instanceof Error)
     message = `${message.name}: ${message.message} [${message.stack}]`;
 
-  const normalizedMessage = (await Logger.buildMessage(message.toString(), {severity: severity})).trim();
+  const normalizedMessage = (await Logger.buildMessage(message.toString(), { severity: severity })).trim();
   const storedLog = await Log.create(bodyParser(normalizedMessage, isServer));
 
-  if(this.socketIO)
+  if (this.socketIO)
     this.socketIO.sockets.in('adminLogs').emit('logs:read', storedLog);
 
   return [normalizedMessage, storedLog];
@@ -40,7 +40,8 @@ const logMessage = async (message, severity, isServer = true) => {
 const bodyParser = (normalizedMessage, source) => {
   const splitedMessage = [...normalizedMessage.matchAll(RFC5424_REGEX)][0];
   return {
-    priority: parseInt(splitedMessage[1]),
+    facility: parseInt(splitedMessage[1]) >> 3,
+    severity: parseInt(splitedMessage[1]) & 7,
     version: parseInt(splitedMessage[2]),
     createdAt: new Date(splitedMessage[3]),
     hostName: splitedMessage[4],
@@ -94,7 +95,7 @@ module.exports = {
     console.debug(normalizedMessage);
     return storedLog;
   },
-  fromSeverity: async(message, severity, isServer) => {
+  fromSeverity: async (message, severity, isServer) => {
     const [normalizedMessage, storedLog] = await logMessage(message, severity, isServer);
     console.log(normalizedMessage);
     return storedLog;

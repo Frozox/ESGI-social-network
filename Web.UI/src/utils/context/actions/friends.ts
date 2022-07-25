@@ -1,4 +1,5 @@
 import { acceptFriendRequest, addNewFriend, getMyFriends } from "../../../api/friends.axios";
+import { sendLogWithSeverity } from "../../../api/apiUtils";
 
 export interface FriendsActionTypes {
     type: string;
@@ -16,11 +17,11 @@ export const getAllFriendsAction = async (dispatch: Function, id: number) => {
             payload: response,
         });
     } catch (error) {
-        console.log(error);
+        await sendLogWithSeverity(3, error);
     }
 }
 
-export const createNewFriendRequestAction = (dispatch: Function, data: any) => {
+export const createNewFriendRequestAction = async (dispatch: Function, data: any) => {
     dispatch({
         type: 'CREATE_FRIEND_REQUEST',
     });
@@ -31,11 +32,11 @@ export const createNewFriendRequestAction = (dispatch: Function, data: any) => {
             payload: response,
         });
     } catch (error) {
-        console.log(error);
+        await sendLogWithSeverity(3, error);
     }
 }
 
-export const updateFriendRequestAction = (dispatch: Function, srcId: number, destId: number) => {
+export const updateFriendRequestAction = async (dispatch: Function, srcId: number, destId: number) => {
     dispatch({
         type: 'UPDATE_FRIEND_REQUEST',
     });
@@ -46,6 +47,6 @@ export const updateFriendRequestAction = (dispatch: Function, srcId: number, des
             payload: response,
         });
     } catch (error) {
-        console.log(error);
+        await sendLogWithSeverity(3, error);
     }
 }

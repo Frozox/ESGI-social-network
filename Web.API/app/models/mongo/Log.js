@@ -1,6 +1,7 @@
 module.exports = (mongoose) => {
   const LogSchema = new mongoose.Schema({
-    priority: Number,
+    facility: Number,
+    severity: Number,
     version: Number,
     createdAt: Date,
     hostName: String,

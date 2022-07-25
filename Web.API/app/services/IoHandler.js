@@ -3,7 +3,7 @@ const { EventEmitter } = require("events");
 const url = require("url");
 
 const routes = {
-  adminLogs: "/admin",
+  adminLogs: "/admin/logs",
 };
 
 const eventEmitter = new EventEmitter();

@@ -1,34 +1,49 @@
 import ChatListItem from "./ChatListItem";
+import React from "react";
+import { getLastConversations, getMessages } from "../../api/messages.axios";
 
 const ChatList = () => {
+  const [conversations, setConversations] = React.useState<any[]>([]);
+  const id = localStorage.getItem("myUser");
+  React.useEffect(() => {
+    getLastConversations(Number(id)).then((res: any) => {
+      if (!res.data) {
+        res.forEach((conv: any) => {
+          const convToDelete = res.findIndex((conv2: any) => findSameConversation(conv, conv2));
+          if (convToDelete > -1) {
+            res.splice(convToDelete, 1);
+          }
+        });
+        setConversations(res);
+      }
+    });
+  }, [conversations.length]);
 
-  const chats = new Array(20).fill({
-    lastMessage: "Bonjour",
+  const findSameConversation = (conv1: any, conv2: any) => {
+    return conv1.userDest === conv2.userSrc && conv1.userSrc === conv2.userDest && conv1.sendAt < conv2.sendAt;
+  }
 
-    created_at: "2020-01-01",
-    userDest: {
-      id: 1,
-      firstName: "John",
-      lastName: "Doe",
-      profilePicture: "https://randomuser.me/api/portraits/lego/1.jpg",
-    }
-  });
-
+  //return (<></>);
   return (
     <ul className="overflow-scroll h-[45rem]">
-      <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
+      <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Conversations</h2>
       <li className="p-2">
-        {chats.map((chat, index) => {
-          chat.id = index;
-          return (
-            <ChatListItem
-              key={chat.id}
-              id={chat.id}
-              lastMessage={chat.lastMessage}
-              created_at={chat.created_at}
-              userDest={chat.userDest}
-            />
-          )
+        {conversations.map((conversation, index) => {
+          if (conversation.userDest == id) {
+            return <ChatListItem
+              key={index}
+              lastMessage={conversation.content}
+              sendAt={conversation.sendAt}
+              friend={conversation.sender}
+            />;
+          } else {
+            return <ChatListItem
+              key={index}
+              lastMessage={conversation.content}
+              sendAt={conversation.sendAt}
+              friend={conversation.receiver}
+            />;
+          }
         }
         )}
       </li>

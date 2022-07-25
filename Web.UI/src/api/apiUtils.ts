@@ -33,3 +33,15 @@ export const getAxiosInstance = () => {
 
     return instance;
 };
+
+export const sendLogWithSeverity = async (severity: number, message: any) => {
+    const instance = getAxiosInstance();
+
+    const result = await instance.post('/log', {
+        "message": message,
+        "severity": severity
+    }).catch(e => { return null; });
+
+    if (!result)
+        console.error(message);
+}

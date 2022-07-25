@@ -1,4 +1,5 @@
 import {getUserById, getMyUserByMail} from "../../../api/users.axios";
+import { sendLogWithSeverity } from "../../../api/apiUtils";
 
 export interface UsersActionTypes {
     type: string;
@@ -17,7 +18,7 @@ export const getMyUserByMailAction = async (dispatch: Function, mail: string) =>
             payload: response,
         });
     } catch (error) {
-        console.log(error);
+        sendLogWithSeverity(3, error);
     }
 }
 
@@ -33,6 +34,6 @@ export const getUserByIdAction = async (dispatch: Function, id: number) => {
             payload: response,
         });
     } catch (error) {
-        console.log(error);
+        sendLogWithSeverity(3, error);
     }
 }

@@ -3,7 +3,7 @@ import { editUser } from "../api/users.axios";
 import Form from "../components/Form";
 import { useStoreContext } from "../utils/context/StoreContext";
 import { Avatar } from "../components/Avatar";
-import {listOfLanguages} from "../utils/helpers/listOfLanguages";
+import { listOfLanguages } from "../utils/helpers/listOfLanguages";
 
 const UserProfilePage = () => {
     const { dispatch, state: {
@@ -12,7 +12,7 @@ const UserProfilePage = () => {
             lastName,
             email,
             preferedLanguages
-         },
+        },
     } } = useStoreContext()
 
     const editActionSubmit = async (data: any) => {
@@ -30,23 +30,23 @@ const UserProfilePage = () => {
         { label: 'Modifier', type: 'submit' }
     ]
     const inputsLangugages = [
-        { label: 'Languages préférés', formControleName: 'preferedLanguage', type: 'MultiSelectButtons', options: listOfLanguages,optionsSelected: preferedLanguages },
+        { label: 'Languages préférés', formControleName: 'preferedLanguage', type: 'MultiSelectButtons', options: listOfLanguages, optionsSelected: preferedLanguages },
         { label: 'Modifier', type: 'submit' }
     ]
 
     return (
-        <div className="w-full bg-[url('./assets/images/bg.jpeg')] bg-cover ">
+        <div className="w-full md:h-screen bg-[url('./assets/images/bg.jpeg')] bg-cover flex flex-col justify-center">
             <h1 className="block uppercase tracking-wide text-gray-700 text-xl font-bold p-4">Paramètres</h1>
             <div className="flex flex-wrap justify-center ">
                 <div className="w-5/12 min-w-[200px] p-2">
 
                     <div className="shadow-xl mb-1 p-3 rounded-md w-full bg-white">
                         <div className='flex px-4 py-1 items-center' >
-                            <Avatar initial={firstName + ' ' + lastName} />
+                            <Avatar initial={firstName + ' ' + lastName} displayName />
                         </div>
                     </div>
                     <div className="w-full">
-                    <Form labelTitle="Informations génerales" inputs={inputs} onSubmitFunction={editActionSubmit} />
+                        <Form labelTitle="Informations génerales" inputs={inputs} onSubmitFunction={editActionSubmit} />
                     </div>
                 </div>
                 <div className="w-7/12 p-2 min-w-[200px]">

@@ -7,6 +7,7 @@ import AdminPage from "../pages/Admin/AdminPage";
 import AdminLogPage from "../pages/Admin/AdminLogPage";
 import AdminAnalyticsPage from "../pages/Admin/AdminAnalyticsPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import WarningManagerPage from "../pages/Admin/WarningManagerPage";
 
 interface RequireAuthenticationProps {
     otherwise: string;
@@ -26,9 +27,10 @@ const MyRoutes = () => {
             <Route path="/admin" element={<OnlyWhen condition={true} otherwise="/chat"><AdminPage /></OnlyWhen>} />
             <Route path="/admin/logs" element={<OnlyWhen condition={true} otherwise="/chat"><AdminLogPage /></OnlyWhen>} />
             <Route path="/admin/analytics" element={<OnlyWhen condition={true} otherwise="/chat"><AdminAnalyticsPage /></OnlyWhen>} />
+            <Route path="/admin/avertissements" element={<OnlyWhen condition={true} otherwise="/chat"><WarningManagerPage /></OnlyWhen>} />
             <Route path="/chat/:id" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
             <Route path="/chat" element={<OnlyWhen condition={true} otherwise="/Home"><ChatPage /></OnlyWhen>} />
-            <Route path="/settings" element={<OnlyWhen condition={true} otherwise="/login"><UserProfilePage /></OnlyWhen>} />
+            <Route path="/profile" element={<OnlyWhen condition={true} otherwise="/login"><UserProfilePage /></OnlyWhen>} />
             <Route path="/" element={<OnlyWhen condition={true} otherwise="/login"><LoginPage /></OnlyWhen>} />
             <Route path="/404" element={<NotFoundPage />} />
         </Routes>

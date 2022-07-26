@@ -1,5 +1,5 @@
 import { ChatIcon, CogIcon, HomeIcon, TemplateIcon, LogoutIcon } from "@heroicons/react/outline";
-import { NavLink, Path, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Path, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
 import { whenPatternMatches } from "../utils/helpers/index";
 import { useStoreContext } from "../utils/context/StoreContext";
@@ -18,11 +18,9 @@ const SideBar = ({ children, location }: navBarProps) => {
     whenPatternMatches(location.pathname, [
       [/^\/login\/?$/, () => setDisplay(false)],
       [/^\/register\/?$/, () => setDisplay(false)],
+      [/^\/admin\/.*$/, () => setDisplay(false)],
     ])
-
-    return () => {
-      setDisplay(true)
-    }
+    return () => setDisplay(true)
   }, [location.pathname])
 
   const NavItem = ({ link, name, icon }: any) => {
@@ -34,21 +32,17 @@ const SideBar = ({ children, location }: navBarProps) => {
       </NavLink>
     )
   }
-  // const handleLogout = () => {
-  //   localStorage.removeItem('token')
-  //   authLogoutRequest(dispatch, navigate)
-  // }
   return (
     <>
       <div className="flex">
         {!display ? ('') : (
           <aside className="w-44 left-0 top-0 h-screen bg-white-700 fixed ">
-            <div className='max-w-[250px] border-r relative flex flex-col py-10 min-h-screen group' >
+            <div className='max-w-[250px] border-r relative flex flex-col min-h-screen group' >
               <div className='grow'>
                 <div className='my-2 mb-6' >
-                  <div className='flex px-4 py-1 cursor-pointer items-center' >
+                  <Link to={'/profile'} className='flex px-4 py-1 cursor-pointer items-center' >
                     <Avatar initial={firstName + ' ' + lastName} displayName />
-                  </div>
+                  </Link>
                 </div>
                 <div className='my-2 ' >
                   <div className='flex px-4 py-1 cursor-pointer' >
@@ -68,20 +62,15 @@ const SideBar = ({ children, location }: navBarProps) => {
                   </div>
                   <ul className="relative">
                     <li className="relative">
-                      <NavItem link="/settings" icon={<CogIcon />} name="Settings" />
+                      <NavItem link="/admin" icon={<CogIcon />} name="Settings" />
                     </li>
                   </ul>
                 </div>
               </div>
-              <div>
-                <div className='my-2' >
-                  <ul className="relative">
-                    <li className="relative">
-                      <NavItem link="/logout" icon={<LogoutIcon />} name="Logout" />
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <button className="text-slate-700 flex justify-center items-center shadow-md hover:text-red-500 bg-slate-300 font-bold py-2 px-2 rounded-sm m-2" onClick={() => { authLogoutRequest(dispatch, navigate) }}>
+                <LogoutIcon className="h-5 w-5 mr-2 text-black-500" />
+                Déconnexion
+              </button>
             </div>
           </aside>
         )}

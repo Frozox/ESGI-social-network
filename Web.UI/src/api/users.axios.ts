@@ -18,7 +18,7 @@ export const getUserById = async (id: number) => {
 }
 
 export const createUser = async (payload: any) => {
-    const response = await instance.post(`/users`, payload);
+    const response = await instance.post(`/register`, payload);
     return response.data;
 }
 

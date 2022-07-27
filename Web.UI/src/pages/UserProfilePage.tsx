@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import { editUser } from "../api/users.axios";
+import { editUser, getMyUser } from "../api/users.axios";
 import Form from "../components/Form";
 import { useStoreContext } from "../utils/context/StoreContext";
 import { Avatar } from "../components/Avatar";
@@ -30,7 +30,7 @@ const UserProfilePage = () => {
         { label: 'Modifier', type: 'submit' }
     ]
     const inputsLangugages = [
-        { label: 'Languages préférés', formControleName: 'preferedLanguage', type: 'MultiSelectButtons', options: listOfLanguages, optionsSelected: preferedLanguages },
+        { label: 'Languages préférés', formControleName: 'preferedLanguage', type: 'MultiSelectButtons', options: listOfLanguages, optionsSelected: preferedLanguages ? preferedLanguages : null },
         { label: 'Modifier', type: 'submit' }
     ]
 

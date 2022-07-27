@@ -1,4 +1,4 @@
-const ChatSearch = () => {
+const ChatSearch = ({ value, onChange }: { value: string, onChange: Function }) => {
   return (
     <div className="mx-3 my-3">
       <div className="relative text-gray-600">
@@ -10,7 +10,9 @@ const ChatSearch = () => {
         </span>
         <input type="search" className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
           name="search"
-          placeholder="Search" required
+          placeholder="Search"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
         />
       </div>
     </div>

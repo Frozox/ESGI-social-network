@@ -11,14 +11,15 @@ interface navBarProps {
 }
 const SideBar = ({ children, location }: navBarProps) => {
   const [display, setDisplay] = useState(true)
-  const { dispatch, state: { myUser: { firstName, lastName } } } = useStoreContext()
+  const { dispatch, state: { myUser: { firstName, lastName, isAdmin } } } = useStoreContext()
   const navigate = useNavigate()
 
   useEffect(() => {
     whenPatternMatches(location.pathname, [
       [/^\/login\/?$/, () => setDisplay(false)],
       [/^\/register\/?$/, () => setDisplay(false)],
-      [/^\/admin\/.*$/, () => setDisplay(false)],
+      [/^\/admin\/?.*$/, () => setDisplay(false)],
+      [/^\/$/, () => setDisplay(false)],
     ])
     return () => setDisplay(true)
   }, [location.pathname])
@@ -55,17 +56,20 @@ const SideBar = ({ children, location }: navBarProps) => {
                     </li>
                   </ul>
                 </div>
-                <div className='my-2' >
-                  <div className='flex px-4 py-1 ' >
-                    <TemplateIcon className="h-5 w-5 text-black-500" />
-                    <p className='mb-2 ml-2 font-bold text-black-500' >Dashboard</p>
+                {isAdmin ? (
+                  <div className='my-2' >
+                    <div className='flex px-4 py-1 ' >
+                      <TemplateIcon className="h-5 w-5 text-black-500" />
+                      <p className='mb-2 ml-2 font-bold text-black-500' >Dashboard</p>
+                    </div>
+                    <ul className="relative">
+                      <li className="relative">
+                        <NavItem link="/admin" icon={<CogIcon />} name="Admin Panel" />
+                      </li>
+                    </ul>
                   </div>
-                  <ul className="relative">
-                    <li className="relative">
-                      <NavItem link="/admin" icon={<CogIcon />} name="Settings" />
-                    </li>
-                  </ul>
-                </div>
+                ) : ''
+                }
               </div>
               <button className="text-slate-700 flex justify-center items-center shadow-md hover:text-red-500 bg-slate-300 font-bold py-2 px-2 rounded-sm m-2" onClick={() => { authLogoutRequest(dispatch, navigate) }}>
                 <LogoutIcon className="h-5 w-5 mr-2 text-black-500" />

@@ -4,6 +4,7 @@ import { NavigateFunction } from "react-router-dom";
 import { IRegisterForm } from "../../../pages/RegisterPage";
 import { startLoader, endLoader } from "./loader";
 import { sendLogWithSeverity } from "../../../api/apiUtils";
+import { createUser } from "../../../api/users.axios";
 
 export interface authActionTypes {
     type: string;
@@ -48,6 +49,7 @@ export const authLogoutRequest = (dispatch: Function, navigate: NavigateFunction
         type: authTypes.LOGOUT_SUCCESS,
     });
     navigate("/login");
+    window.location.reload();
 }
 
 export const authRegisterRequest = async (dispatch: Function, navigate: NavigateFunction, payload: IRegisterForm) => {
@@ -56,7 +58,7 @@ export const authRegisterRequest = async (dispatch: Function, navigate: Navigate
     });
 
     try {
-        const response = await registerAction(payload);
+        await createUser(payload);
         dispatch({
             type: authTypes.REGISTER_SUCCESS,
         });

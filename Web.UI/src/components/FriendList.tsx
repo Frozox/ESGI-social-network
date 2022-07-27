@@ -1,5 +1,6 @@
 import { CheckIcon, UserAddIcon } from "@heroicons/react/outline"
 import React, { Fragment } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { acceptFriendRequest, checkIfRequestIsSent, getFriendsRequests, getMyFriends, refuseFriendRequest } from "../api/friends.axios"
 import { getAllUserExceptUserAction } from "../utils/context/actions/admin"
 import { createNewFriendRequestAction } from "../utils/context/actions/friends"
@@ -49,56 +50,59 @@ export const FriendList = () => {
         myUser: { id },
         users: { usersList, needRefreshUsers }
     } } = useStoreContext()
-
+    const location = useLocation()
+    const navigate = useNavigate()
     const { openModal, updateModalContent, updateModalTitle, closeModal } = useModalContext()
-
-    React.useEffect(() => {
-        if (needRefreshUsers) { getAllUserExceptUserAction(dispatch, id) }
-    }, [needRefreshUsers])
-
     const [myFriends, setMyFriends] = React.useState<any[]>([{
         id: '',
         firstName: '',
         lastName: '',
     }])
-
-    React.useEffect(() => {
-        getMyFriends(id).then(res => {
-            setMyFriends(
-                res.map((friend: any) => {
-                    if (friend.send.id !== id) {
-                        return {
-                            id: friend.send.id,
-                            firstName: friend.send.firstName,
-                            lastName: friend.send.lastName,
-                        }
-                    } else if (friend.receive.id !== id) {
-                        return {
-                            id: friend.receive.id,
-                            firstName: friend.receive.firstName,
-                            lastName: friend.receive.lastName,
-                        }
-                    }
-                })
-            )
-        })
-    }, [id])
-
     const [myRequests, setMyRequests] = React.useState<any[]>([])
 
     React.useEffect(() => {
-        getFriendsRequests(id).then(res => {
-            setMyRequests(res.map((friend: any) => {
-                return {
-                    id: friend.send.id,
-                    firstName: friend.send.firstName,
-                    lastName: friend.send.lastName,
-                }
-            }))
-        })
-    }, [id])
+        if (needRefreshUsers) { getAllUserExceptUserAction(dispatch, id) }
+    }, [needRefreshUsers])
 
-    const handleAddFriend = (userId: number) => {
+    React.useEffect(() => {
+        if (location.pathname === '/chat') {
+            getMyFriends(id).then(res => {
+                setMyFriends(
+                    res.map((friend: any) => {
+                        if (friend.send.id !== id) {
+                            return {
+                                id: friend.send.id,
+                                firstName: friend.send.firstName,
+                                lastName: friend.send.lastName,
+                            }
+                        } else if (friend.receive.id !== id) {
+                            return {
+                                id: friend.receive.id,
+                                firstName: friend.receive.firstName,
+                                lastName: friend.receive.lastName,
+                            }
+                        }
+                    })
+                )
+            })
+        }
+    }, [id, location.pathname])
+
+    React.useEffect(() => {
+        if (location.pathname === '/chat') {
+            getFriendsRequests(id).then(res => {
+                setMyRequests(res.map((friend: any) => {
+                    return {
+                        id: friend.send.id,
+                        firstName: friend.send.firstName,
+                        lastName: friend.send.lastName,
+                    }
+                }))
+            })
+        }
+    }, [id, location.pathname])
+
+    const handleAddFriend = async (userId: number) => {
         const friend = {
             user_src: id,
             user_dest: userId,
@@ -106,7 +110,7 @@ export const FriendList = () => {
             confirm_at: null,
             active: false
         }
-        createNewFriendRequestAction(dispatch, friend);
+        await createNewFriendRequestAction(dispatch, friend);
     }
 
     const handleAcceptFriend = () => {
@@ -133,13 +137,13 @@ export const FriendList = () => {
         openModal()
     }
 
-    const handleAcceptFriendRequest = (userSource: number) => {
-        acceptFriendRequest(userSource, id)
+    const handleAcceptFriendRequest = async (userSource: number) => {
+        await acceptFriendRequest(userSource, id)
         closeModal()
     }
 
-    const handleRefuseFriendRequest = (userSource: number) => {
-        refuseFriendRequest(userSource, id)
+    const handleRefuseFriendRequest = async (userSource: number) => {
+        await refuseFriendRequest(userSource, id)
         closeModal()
     }
 

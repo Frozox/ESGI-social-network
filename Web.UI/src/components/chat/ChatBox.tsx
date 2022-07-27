@@ -56,6 +56,12 @@ const ChatBox = ({ userDestId }: { userDestId: number }) => {
     setMyMessage(e.target.value);
   }
 
+  const handlePressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendMessageEvent(myMessage);
+    }
+  }
+
   return (
     <div className="w-full">
 
@@ -72,7 +78,7 @@ const ChatBox = ({ userDestId }: { userDestId: number }) => {
       <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
         <input type="text" placeholder="Message"
           className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-          name="message" required value={myMessage} onChange={handleChange} />
+          name="message" required value={myMessage} onChange={handleChange} onKeyUp={(e) => handlePressEnter(e)} />
         <ChatBoxWriteBar svg={<PaperAirplaneIcon className="h-5 w-5 text-gray-500" />} action={() => sendMessageEvent(myMessage)} />
       </div>
     </div>

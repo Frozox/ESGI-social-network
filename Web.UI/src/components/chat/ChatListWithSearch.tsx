@@ -14,11 +14,8 @@ const ChatListWithSearch = ({ children }: any) => {
   const location = useLocation();
 
   React.useEffect(() => {
-    console.log(id)
     if (location.pathname === '/chat') {
       getLastConversations(Number(id)).then((res: any) => {
-        console.log(res);
-
         res.forEach((conv: any) => {
           const convToDelete = res.findIndex((conv2: any) => findSameConversation(conv, conv2));
           if (convToDelete > -1) {

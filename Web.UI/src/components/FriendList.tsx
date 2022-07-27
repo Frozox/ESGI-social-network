@@ -1,6 +1,6 @@
 import { CheckIcon, UserAddIcon } from "@heroicons/react/outline"
 import React, { Fragment } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { acceptFriendRequest, checkIfRequestIsSent, getFriendsRequests, getMyFriends, refuseFriendRequest } from "../api/friends.axios"
 import { getAllUserExceptUserAction } from "../utils/context/actions/admin"
 import { createNewFriendRequestAction } from "../utils/context/actions/friends"
@@ -51,6 +51,7 @@ export const FriendList = () => {
         users: { usersList, needRefreshUsers }
     } } = useStoreContext()
     const location = useLocation()
+    const navigate = useNavigate()
     const { openModal, updateModalContent, updateModalTitle, closeModal } = useModalContext()
     const [myFriends, setMyFriends] = React.useState<any[]>([{
         id: '',

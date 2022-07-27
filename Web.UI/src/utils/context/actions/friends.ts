@@ -1,5 +1,6 @@
 import { acceptFriendRequest, addNewFriend, getMyFriends } from "../../../api/friends.axios";
 import { sendLogWithSeverity } from "../../../api/apiUtils";
+import { NavigateFunction } from "react-router-dom";
 
 export interface FriendsActionTypes {
     type: string;

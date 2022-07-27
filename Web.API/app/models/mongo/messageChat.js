@@ -4,6 +4,7 @@ module.exports = (mongoose) => {
             type: Number,
             index: true,
             unique: true,
+            key: 'primary'
         },
         userSrc: {
             type: Number,

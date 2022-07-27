@@ -1,6 +1,7 @@
 const { Chat, User} = require('../models/postgres');
 const { messageChat } = require('../models/mongo');
 const {ValidationError, Op, Sequelize} = require("sequelize");
+const { Logger } = require('../services/Logger');
 
 const formatResults = (resultPostgres, resultMongo) => {
   return resultPostgres.map(item => {
@@ -54,7 +55,7 @@ module.exports = {
       }
     } catch (error) {
       res.sendStatus(500);
-      console.error(error);
+      Logger.err(error);
     }
   },
 
@@ -98,7 +99,7 @@ module.exports = {
       }
     }catch (error) {
       res.sendStatus(500);
-      console.error(error);
+      Logger.err(error);
     }
   },
 
@@ -129,7 +130,7 @@ module.exports = {
       res.json(result);
     } catch (error) {
       res.sendStatus(500);
-      console.error(error);
+      Logger.err(error);
     }
   },
 
@@ -151,7 +152,7 @@ module.exports = {
       }
     } catch (error) {
       res.sendStatus(500);
-      console.error(error);
+      Logger.err(error);
     }
   },
 
@@ -172,12 +173,12 @@ module.exports = {
           res.json(resultPostgres);
         }else{
           res.sendStatus(500);
-          console.log("Erreur de création dans Mongo");
+          Logger.info("Erreur de création dans Mongo");
         }
       }
     } catch (error) {
       res.sendStatus(500);
-      console.error(error);
+      Logger.err(error);
     }
   },
 
@@ -189,13 +190,22 @@ module.exports = {
    */
   editChatMessage: async (req, res) => {
     try {
-      const updateMongo = await messageChat.updateOne(req.body, {where: {idPostgres: req.params.id}}, {returning: true});
-      const updatePostgres = await Chat.updateOne({updatedAt: new Date()}, {where: {id: req.params.id}}, {returning: true});
-      updatePostgres.content = updateMongo.dataValues.content;
-      res.json(updatePostgres);
+      const updateMongo = await messageChat.updateOne({ idPostgres: req.params.id }, req.body.mongo);
+      if (updateMongo.matchedCount === 0) {
+        res.sendStatus(500);
+        Logger.info("Erreur de mise à jour dans Mongo");
+      }
+      const updatePostgres = await Chat.update({updatedAt: new Date()}, {where: {id: req.params.id}, returning: true});
+      if (updatePostgres.length === 0 || !updatePostgres[1]) {
+        res.sendStatus(500);
+        Logger.error("Erreur de mise à jour dans Postgres");
+      }else{
+        updatePostgres[1][0].setDataValue('content',req.body.mongo.content);
+        res.json(updatePostgres[1][0]);
+      }
     } catch (error) {
       res.sendStatus(500);
-      console.error(error);
+      Logger.err(error);
     }
   },
 
@@ -215,7 +225,7 @@ module.exports = {
       res.json(result);
     } catch (error) {
       res.sendStatus(500);
-      console.error(error);
+      Logger.err(error);
     }
   }
 }

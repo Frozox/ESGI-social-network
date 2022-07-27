@@ -22,19 +22,22 @@ const ChatListItem = ({ lastMessage, sendAt, friend }: ChatListItemProps) => {
   const diffMonths = Math.round(diff / 2628000000);
   const diffYears = Math.round(diff / 31536000000);
   let time = "";
-  // @ts-ignore
-  if (diffMinutes < 60) {
-    time = diffMinutes + " minutes";
-  }else if (diffHours < 24) {
-    time = diffHours + " heures";
-  }else if (diffDays < 7) {
-    time = diffDays + " jours";
-  }else if (diffWeeks < 4) {
-    time = diffWeeks + " semaines";
-  }else if (diffMonths < 12) {
-    time = diffMonths + " mois";
-  }else
+
+  if (diffYears > 0)
     time = diffYears + " ans";
+  else if (diffMonths > 0)
+    time = diffMonths + " mois";
+  else if (diffWeeks > 0)
+    time = diffWeeks + " semaines";
+  else if (diffDays > 0)
+    time = diffDays + " jours";
+  else if (diffHours > 0)
+    time = diffHours + " heures";
+  else if (diffMinutes > 0)
+    time = diffMinutes + " minutes";
+  else
+    time = "à l'instant";
+
   return (
     <Link to={`/chat/${friend.id}`}>
       <div

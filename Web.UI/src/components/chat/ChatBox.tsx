@@ -1,11 +1,9 @@
 import ChatBoxMessageList from "./ChatBoxMessageList";
 import ChatBoxHeader from "./ChatBoxHeader";
 import React from "react";
-import { useStoreContext } from "../../utils/context/StoreContext";
-import { getMessages, sendMessage } from "../../api/messages.axios";
-import { getUserById } from "../../api/users.axios";
-import { getMyUserActions } from "../../utils/context/actions/user";
-import { PaperAirplaneIcon } from "@heroicons/react/solid";
+import {getMessages, sendMessage} from "../../api/messages.axios";
+import {getUserById} from "../../api/users.axios";
+import {PaperAirplaneIcon} from "@heroicons/react/solid";
 
 const ChatBoxWriteBar = ({ svg, action }: { svg: JSX.Element, action: Function }) => {
   return (
@@ -23,6 +21,7 @@ const ChatBox = ({ userDestId }: { userDestId: number }) => {
     firstName: 'Utilisateur Inconnu',
     lastName: '',
   });
+
   const sendMessageEvent = (message: string) => {
     sendMessage(message, userDestId, Number(id)).then(res => {
       setMessages([...messages, res]);

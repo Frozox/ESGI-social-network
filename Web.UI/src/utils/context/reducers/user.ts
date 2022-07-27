@@ -2,15 +2,24 @@
 import React from "react";
 import { UserActionTypes } from "../actions/user";
 
-export const userIS = {
+interface UserState {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    token: string;
+    isAdmin: boolean;
+    preferedLanguages: Array<string>;
+}
+
+export const userIS: UserState = {
     id: 0,
     firstName: '',
     lastName: '',
     email: '',
-    preferedLanguages: Array<string>(),
-    roles: Array<string>(),
+    preferedLanguages: [],
     token: '',
-    error: null,
+    isAdmin: false,
 };
 
 // create action types

@@ -40,7 +40,6 @@ export const Dashboard = ({ children }: any) => {
                                 {
                                     <>
                                         <DashboardItem name='Logs' icon={<ArchiveIcon className="w-5 h-5" />} onpress='/admin/logs' />
-                                        <DashboardItem name='Analytics' icon={<ChartBarIcon className="w-5 h-5" />} onpress='/admin/analytics' />
                                         <DashboardItem name='Avertissements' icon={<ExclamationIcon className="w-5 h-5" />} onpress='/admin/avertissements' />
                                     </>
                                 }

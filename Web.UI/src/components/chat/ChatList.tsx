@@ -1,34 +1,15 @@
 import ChatListItem from "./ChatListItem";
 import React from "react";
 import { getLastConversations, getMessages } from "../../api/messages.axios";
+import { useStoreContext } from "../../utils/context/StoreContext";
 
-const ChatList = () => {
-  const [conversations, setConversations] = React.useState<any[]>([]);
-  const id = localStorage.getItem("myUser");
-  React.useEffect(() => {
-    getLastConversations(Number(id)).then((res: any) => {
-      if (!res.data) {
-        res.forEach((conv: any) => {
-          const convToDelete = res.findIndex((conv2: any) => findSameConversation(conv, conv2));
-          if (convToDelete > -1) {
-            res.splice(convToDelete, 1);
-          }
-        });
-        setConversations(res);
-      }
-    });
-  }, [conversations.length]);
-
-  const findSameConversation = (conv1: any, conv2: any) => {
-    return conv1.userDest === conv2.userSrc && conv1.userSrc === conv2.userDest && conv1.sendAt < conv2.sendAt;
-  }
-
-  //return (<></>);
+const ChatList = ({ conversations }: any) => {
+  const { state: { myUser: { id } } } = useStoreContext()
   return (
     <ul className="overflow-scroll h-[45rem]">
       <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Conversations</h2>
       <li className="p-2">
-        {conversations.map((conversation, index) => {
+        {conversations.map((conversation: { userDest: any; content: string; sendAt: string; sender: { id: number; firstName: string; lastName: string; }; receiver: { id: number; firstName: string; lastName: string; }; }, index: React.Key | null | undefined) => {
           if (conversation.userDest == id) {
             return <ChatListItem
               key={index}

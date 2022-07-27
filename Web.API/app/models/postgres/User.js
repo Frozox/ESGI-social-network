@@ -28,13 +28,18 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    preferredLanguages: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+    preferedLanguages: {
+      type: DataTypes.JSON,
       allowNull: true,
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     }
   },
   {
-    indexes: [{ fields: ['email'], unique: true}],
+    indexes: [{ fields: ['email'], unique: true }],
     sequelize: connection,
     modelName: 'user',
     tableName: 'users',

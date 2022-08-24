@@ -1,0 +1,59 @@
+version: '3.5'
+
+services:
+  node-api:
+    image: node:18.2.0
+    container_name: node-api
+    working_dir: /var/www/
+    command: /bin/bash -c "yarn && yarn dev"
+    env_file: ${envFile}
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/var/www/
+
+  mongo:
+    image: mongo:5.0.9
+    container_name: mongo
+    env_file: ${envFile}
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+  postgres:
+    image: postgres:alpine3.16
+    container_name: postgres
+    env_file: ${envFile}
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  
+  adminer:
+    container_name: adminer_node
+    image: adminer
+    ports:
+      - '8000:8080'
+    depends_on:
+      - postgres
+
+  pgadmin:
+    container_name: pgadmin_node
+    image: dpage/pgadmin4:latest
+    environment:
+        - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+        - PGADMIN_DEFAULT_PASSWORD=root
+        - PGADMIN_DEFAULT_DB=${POSTGRES_DB}
+        - PGADMIN_DEFAULT_USER=${POSTGRES_USER}
+        - PGADMIN_DEFAULT_PASS=${POSTGRES_PASSWORD}
+        - PGADMIN_LISTEN_PORT=8080
+    ports:
+      - '8001:8080'
+    depends_on:
+      - postgres
+
+volumes:
+  mongo-data: {}
+  db-data: {}
+    
